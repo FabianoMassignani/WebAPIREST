@@ -2,7 +2,7 @@
 {
     public class TelefoneViewModel
     {
-        public string tipo { get; set; }
-        public string numero { get; set; }
+        public required string Tipo { get; set; }
+        public required string Numero { get; set; }
     }
 }

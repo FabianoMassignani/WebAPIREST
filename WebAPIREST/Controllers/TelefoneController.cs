@@ -1,31 +1,26 @@
-﻿using AutoMapper;
+﻿using System.Collections.Generic;
+using System.Linq;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using WebAPIREST.Dto;
 using WebAPIREST.infraestrutura;
+using WebAPIREST.Interfaces;
 using WebAPIREST.Models;
 using WebAPIREST.ViewModel;
-using System.Collections.Generic;
-using System.Linq;
-using WebAPIREST.Interfaces;
 
 namespace WebAPIREST.Controllers
 {
     [Route("/telefone")]
     [ApiController]
-    public class TelefoneController : ControllerBase
+    public class TelefoneController(
+        ITelefoneRepository telefoneRepository,
+        IPessoaRepository pessoaRepository,
+        IMapper mapper
+        ) : ControllerBase
     {
-        private readonly ITelefoneRepository _telefoneRepository;
-        private readonly IPessoaRepository _pessoaRepository;
-        private readonly IMapper _mapper;
-
-        public TelefoneController(ITelefoneRepository telefoneRepository,
-            IPessoaRepository pessoaRepository,
-            IMapper mapper)
-        {
-            _telefoneRepository = telefoneRepository;
-            _pessoaRepository = pessoaRepository;
-            _mapper = mapper;
-        }
+        private readonly ITelefoneRepository _telefoneRepository = telefoneRepository;
+        private readonly IPessoaRepository _pessoaRepository = pessoaRepository;
+        private readonly IMapper _mapper = mapper;
 
         [HttpGet]
         [ProducesResponseType(200, Type = typeof(IEnumerable<TelefoneDto>))]
@@ -40,29 +35,31 @@ namespace WebAPIREST.Controllers
         }
 
         [HttpGet("{id}")]
-        //[ProducesResponseType(200, Type = typeof(PessoaDto))]
-        //[ProducesResponseType(400)]
+        [ProducesResponseType(200, Type = typeof(PessoaDto))]
+        [ProducesResponseType(400)]
         public IActionResult GetById(int id)
         {
-            var pessoa = _mapper.Map<PessoaDto>(_telefoneRepository.GetById(id));
-
-            if (pessoa == null)
-            {
+            if (!_telefoneRepository.TelefoneExist(id))
                 return NotFound();
+
+            var pessoa = _mapper.Map<TelefoneDto>(_telefoneRepository.GetById(id));
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
             }
 
             return Ok(pessoa);
         }
 
         [HttpGet("GetByNumero")]
-       // [ProducesResponseType(200, Type = typeof(IEnumerable<PessoaDto>))]
-        //[ProducesResponseType(400)]
+        [ProducesResponseType(200, Type = typeof(IEnumerable<PessoaDto>))]
+        [ProducesResponseType(400)]
         public IActionResult GetByNumero(string numero)
         {
-            // Aqui você precisa implementar a lógica para buscar pessoas pelo número de telefone
             var pessoas = _telefoneRepository.GetPessoaByTelefone(numero);
 
-            if (pessoas == null || !pessoas.Any())
+            if (pessoas == null)
             {
                 return NotFound();
             }
@@ -73,18 +70,21 @@ namespace WebAPIREST.Controllers
         }
 
         [HttpPost]
-        public IActionResult Add([FromQuery]int id_pessoa,TelefoneViewModel telefoneView)
+        public IActionResult Post([FromQuery] int id_pessoa, TelefoneViewModel telefoneView)
         {
-            var telefone = new Telefone(
-                telefoneView.tipo,
-                telefoneView.numero
-            );
+            var pessoa = _pessoaRepository.GetById(id_pessoa);
 
-            telefone.Pessoa = _pessoaRepository.GetById(id_pessoa);
+            if (pessoa == null)
+            {
+                return NotFound("Pessoa não encontrada");
+            }
 
-            _telefoneRepository.Add(telefone);
+            var telefone = new Telefone(telefoneView.Tipo, telefoneView.Numero);
 
-            return Ok("Successfully created");
+            pessoa.Telefones.Add(telefone);  
+            _pessoaRepository.Update(pessoa);
+
+            return Ok("Telefone associado com sucesso à pessoa");
         }
     }
 }

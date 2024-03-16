@@ -7,15 +7,16 @@ namespace WebAPIREST.Models
     public class Telefone
     {
         [Key]
-        public int id_telefone { get; set; }
-        public string tipo { get; set; }
-        public string numero { get; set; }
-        public int id_pessoa { get; set; }
+        public int Id_telefone { get; set; }
+        public string Tipo { get; private set; }
+        public string Numero { get; private set; }
+        public int PessoaId { get; set; }
         public Pessoa Pessoa { get; set; }
         public Telefone(string tipo, string numero)
         {
-            this.tipo = tipo;
-            this.numero = numero;
+            this.Tipo = tipo;
+            this.Numero = numero;
+           
         }
     }
 }

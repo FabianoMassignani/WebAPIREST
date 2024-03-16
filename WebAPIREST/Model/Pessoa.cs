@@ -8,15 +8,15 @@ namespace WebAPIREST.Models
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int id_pessoa { get; set; }
-        public string nome { get; set; }
-        public DateTime data_nascimento { get; set; }
-        public bool ativo { get; set; }
-        public string cpf { get; set; }
-        public string genero { get; set; }
-        public string endereco { get; set; }
-        public string email { get; set; }
-        public DateTime data_atualizacao { get; set; }
+        public int Id_pessoa { get; set; }
+        public string Nome { get; set; }
+        public DateTime Data_nascimento { get; set; }
+        public bool Ativo { get; set; }
+        public string Cpf { get; set; }
+        public string Genero { get; set; }
+        public string Endereco { get; set; }
+        public string Email { get; set; }
+        public DateTime Data_atualizacao { get; set; }
         public ICollection<Telefone> Telefones { get; set; }
 
         public Pessoa(
@@ -30,14 +30,14 @@ namespace WebAPIREST.Models
             DateTime data_atualizacao
         )
         {
-            this.nome = nome;
-            this.data_nascimento = data_nascimento;
-            this.ativo = ativo;
-            this.cpf = cpf;
-            this.genero = genero;
-            this.endereco = endereco;
-            this.email = email;
-            this.data_atualizacao = data_atualizacao;
+            this.Nome = nome;
+            this.Data_nascimento = data_nascimento;
+            this.Ativo = ativo;
+            this.Cpf = cpf;
+            this.Genero = genero;
+            this.Endereco = endereco;
+            this.Email = email;
+            this.Data_atualizacao = data_atualizacao;
             Telefones = new List<Telefone>();
         }
     }

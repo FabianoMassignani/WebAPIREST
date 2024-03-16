@@ -2,8 +2,8 @@
 {
     public class TelefoneDto
     {
-        public int id_telefone { get; private set; }
-        public string tipo { get; private set; }
-        public string numero { get; private set; }
+        public int Id_telefone { get; private set; }
+        public string? Tipo { get; private set; }
+        public string? Numero { get; private set; }
     }
 }

@@ -7,6 +7,10 @@ namespace WebAPIREST.Interfaces
         List<Telefone> GetAll();
         Telefone GetById(int id);
         ICollection<Pessoa> GetPessoaByTelefone(string id);
-        void Add(Telefone telefone);
+        bool TelefoneExist(int id);
+        void Post(Telefone telefone);
+        void Update(Telefone entity);
+        void Delete(int id);
+       
     }
 }

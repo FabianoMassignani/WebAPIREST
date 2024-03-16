@@ -7,40 +7,36 @@ using WebAPIREST.ViewModel;
 
 namespace WebAPIREST.Controllers
 {
-
     [Route("/pessoa")]
     [ApiController]
-    public class PessoaController : ControllerBase
+    public class PessoaController(IPessoaRepository pessoaRepository, IMapper mapper) : ControllerBase
     {
-        private readonly IPessoaRepository _pessoaRepository;
-        private readonly IMapper _mapper;
-
-        public PessoaController(IPessoaRepository pessoaRepository, IMapper mapper)
-        {
-            _pessoaRepository = pessoaRepository;
-            _mapper = mapper;
-        }
+        private readonly IPessoaRepository _pessoaRepository = pessoaRepository;
+        private readonly IMapper _mapper = mapper;
 
         [HttpGet]
-       // [ProducesResponseType(200, Type = typeof(Telefone))]
-       // [ProducesResponseType(400)]
+        [ProducesResponseType(200, Type = typeof(Telefone))]
+        [ProducesResponseType(400)]
         public IActionResult Get()
         {
+
             var pessoas = _pessoaRepository.GetAll();
 
-            return Ok(pessoas);
+            var pessoasDto = _mapper.Map<IEnumerable<PessoaDto>>(pessoas);
+
+            return Ok(pessoasDto);
         }
 
         [HttpGet("{id}")]
-       // [ProducesResponseType(200, Type = typeof(Pessoa))]
-       // [ProducesResponseType(400)]
-        public IActionResult GetById(int id_pessoa)
+        [ProducesResponseType(200, Type = typeof(Pessoa))]
+        [ProducesResponseType(400)]
+        public IActionResult GetById(int id)
         {
-            if (!_pessoaRepository.PessoaExist(id_pessoa))
+            if (!_pessoaRepository.PessoaExist(id))
                 return NotFound();
 
-            // var pessoa = _mapper.Map<PessoaDto>(_pessoaRepository.GetById(id_pessoa));
-            var pessoa = _pessoaRepository.GetById(id_pessoa);
+            var pessoa = _mapper.Map<PessoaDto>(_pessoaRepository.GetById(id));
+          
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -50,14 +46,13 @@ namespace WebAPIREST.Controllers
         }
 
         [HttpGet("/GetByNome/{nome}")]
-       // [ProducesResponseType(200, Type = typeof(Pessoa))]
-       // [ProducesResponseType(400)]
+        [ProducesResponseType(200, Type = typeof(Pessoa))]
+        [ProducesResponseType(400)]
         public IActionResult GetByNome(string nome)
         {
-            
             var pessoa = _pessoaRepository.GetByNome(nome);
 
-            if (!ModelState.IsValid) 
+            if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
@@ -66,24 +61,32 @@ namespace WebAPIREST.Controllers
         }
 
         [HttpPost]
-       // [ProducesResponseType(200, Type = typeof(Telefone))]
-      //  [ProducesResponseType(400)]
-        public IActionResult Add(PessoaViewModel pessoaView)
+        [ProducesResponseType(200, Type = typeof(Telefone))]
+        [ProducesResponseType(400)]
+        public IActionResult Post(PessoaViewModel pessoaView)
         {
             var pessoa = new Pessoa(
-                pessoaView.nome,
-                pessoaView.data_nascimento,
-                pessoaView.ativo,
-                pessoaView.cpf,
-                pessoaView.genero,
-                pessoaView.endereco,
-                pessoaView.email,
-                pessoaView.data_atualizacao
+                pessoaView.Nome,
+                pessoaView.Data_nascimento,
+                pessoaView.Ativo,
+                pessoaView.Cpf,
+                pessoaView.Genero,
+                pessoaView.Endereco,
+                pessoaView.Email,
+                pessoaView.Data_atualizacao
             );
 
-            _pessoaRepository.Add(pessoa);
+            _pessoaRepository.Post(pessoa);
 
             return Ok();
+        }
+
+        [HttpPut]
+        public IActionResult Put(PessoaViewModel pessoa)
+        {
+
+            return Ok(pessoa);
+
         }
     }
 }

@@ -2,13 +2,13 @@
 {
     public class PessoaViewModel
     {
-        public string nome { get; set; }
-        public DateTime data_nascimento { get; set; }
-        public bool ativo { get; set; }
-        public string cpf { get; set; }
-        public string genero { get; set; }
-        public string endereco { get; set; }
-        public string email { get; set; }
-        public DateTime data_atualizacao { get; set; }
+        public required string Nome { get; set; }
+        public DateTime Data_nascimento { get; set; }
+        public bool Ativo { get; set; }
+        public required string Cpf { get; set; }
+        public required string Genero { get; set; }
+        public required string Endereco { get; set; }
+        public required string Email { get; set; }
+        public DateTime Data_atualizacao { get; set; }
     }
 }
