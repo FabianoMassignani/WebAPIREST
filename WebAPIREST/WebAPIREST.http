@@ -1,6 +1,116 @@
-@WebAPIREST_HostAddress = http://localhost:5074
+### GET /pessoa
 
-GET {{WebAPIREST_HostAddress}}/weatherforecast/
+GET http://localhost:5074/pessoa
+Accept: application/json
+
+###
+
+### GET /pessoa/{id}
+
+GET http://localhost:5074/pessoa/1
+Accept: application/json
+
+###
+
+### GET /pessoa/GetByNome/{nome}
+
+GET https://localhost:7101/GetByNome?nome=Joao
+Accept: application/json
+
+###
+
+### GET /pessoa/GetByNumero?numero=123456789
+
+GET https://localhost:7101/GetPessoaByNumero?numero=123456789
+Accept: application/json
+
+###
+
+### POST /pessoa
+
+POST http://localhost:5074/pessoa
+Content-Type: application/json
+
+{
+  "nome": "Joao",
+  "data_nascimento": "1990-01-01",
+  "ativo": true,
+  "cpf": "07738062967",
+  "genero": "M",
+  "endereco": "Rua ABC",
+  "email": "joao@example.com"
+}
+
+###
+
+### PUT /pessoa/{id}
+
+PUT http://localhost:5074/pessoa/1
+Content-Type: application/json
+
+{
+  "id_pessoa": 1,
+  "nome": "Joao",
+  "data_nascimento": "1990-01-01",
+  "ativo": true,
+  "cpf": "12345678901",
+  "genero": "M",
+  "endereco": "Rua ABC",
+  "email": "joao@example.com"
+}
+
+###
+
+### DELETE /pessoa/{id}
+
+DELETE http://localhost:5074/pessoa/5
+Accept: application/json
+
+###
+
+
+### GET /telefone
+
+GET http://localhost:5074/telefone
+Accept: application/json
+
+###
+
+### GET /telefone/{id}
+
+GET http://localhost:5074/telefone/1
+Accept: application/json
+
+###
+
+### POST /telefone?id_pessoa=1
+
+POST http://localhost:5074/telefone?id_pessoa=1
+Content-Type: application/json
+
+{
+  "tipo": "Celular",
+  "numero": "123456789"
+}
+
+###
+
+### PUT /telefone/{id}
+
+PUT http://localhost:5074/telefone/6
+Content-Type: application/json
+
+{
+  "id_telefone": 6,
+  "tipo": "Celular",
+  "numero": "123456789"
+}
+
+###
+
+### DELETE /telefone/{id}
+
+DELETE http://localhost:5074/telefone/6
 Accept: application/json
 
 ###

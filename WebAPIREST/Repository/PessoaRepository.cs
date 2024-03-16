@@ -38,18 +38,6 @@ namespace WebAPIREST.Repository
             }
         }
 
-        public Pessoa GetPessoaByName(string nome)
-        {
-            try
-            {
-                return _context.Pessoas.FirstOrDefault(p => p.Nome == nome);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Erro ao obter a pessoa por nome.", ex);
-            }
-        }
-
         public Pessoa GetPessoaByCPF(string cpf)
         {
             try
@@ -86,8 +74,6 @@ namespace WebAPIREST.Repository
                 throw new Exception("Erro ao adicionar pessoa.", ex);
             }
         }
-
-
         public bool UpdatePessoa(Pessoa pessoa)
         {
             try
@@ -138,6 +124,32 @@ namespace WebAPIREST.Repository
             var saved = _context.SaveChanges();
 
             return saved > 0 ? true : false;
+        }
+
+        List<Pessoa> IPessoaRepository.GetPessoaByName(string nome)
+        {
+            try
+            {
+                return _context.Pessoas.Where(p => p.Nome == nome).ToList();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Erro ao obter a pessoa por nome.", ex);
+            }
+        }
+
+        public Pessoa GetPessoaByTelefone(string id)
+        {
+            try
+            {
+                return _context
+             .Pessoas.Include(p => p.Telefones)
+             .FirstOrDefault(p => p.Telefones.Any(t => t.Numero == id));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Erro ao obter pessoas pelo telefone.", ex);
+            }
         }
     }
 }

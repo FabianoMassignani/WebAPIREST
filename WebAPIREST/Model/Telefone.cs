@@ -12,6 +12,7 @@ namespace WebAPIREST.Models
         public string Numero { get; set; }
         public int PessoaId { get; set; }
         public Pessoa Pessoa { get; set; }
+
         public Telefone(string tipo, string numero)
         {
             this.Tipo = tipo;

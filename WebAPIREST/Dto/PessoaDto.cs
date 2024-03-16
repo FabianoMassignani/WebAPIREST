@@ -11,9 +11,20 @@
         public string Endereco { get; private set; }
         public string Email { get; private set; }
         public DateTime Data_atualizacao { get; private set; }
-        public ICollection<TelefoneDto> Telefones { get; private set; }  
+        public ICollection<TelefoneDto> Telefones { get; private set; }
 
-        public PessoaDto(int id_pessoa, string nome, DateTime data_nascimento, bool ativo, string cpf, string genero, string endereco, string email, DateTime data_atualizacao, ICollection<TelefoneDto> telefones)
+        public PessoaDto(
+            int id_pessoa,
+            string nome,
+            DateTime data_nascimento,
+            bool ativo,
+            string cpf,
+            string genero,
+            string endereco,
+            string email,
+            DateTime data_atualizacao,
+            ICollection<TelefoneDto> telefones
+        )
         {
             this.Id_pessoa = id_pessoa;
             this.Nome = nome;

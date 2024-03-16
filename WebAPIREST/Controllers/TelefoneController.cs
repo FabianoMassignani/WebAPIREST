@@ -29,18 +29,20 @@ namespace WebAPIREST.Controllers
         {
             try
             {
-                var telefones = _telefoneRepository.GetAllTelefone();
+                var telefones = _mapper.Map<IEnumerable<TelefoneDto>>(
+                    _telefoneRepository.GetAllTelefone()
+                );
 
-                var telefonesDto = _mapper.Map<IEnumerable<TelefoneDto>>(telefones);
+                if (!ModelState.IsValid)
+                    return BadRequest(ModelState);
 
-                return Ok(telefonesDto);
+                return Ok(telefones);
             }
             catch (Exception ex)
             {
                 return StatusCode(500, "Erro interno do servidor: " + ex.Message);
             }
         }
-
 
         [HttpGet("{id}")]
         [ProducesResponseType(200, Type = typeof(TelefoneDto))]
@@ -49,48 +51,19 @@ namespace WebAPIREST.Controllers
         {
             try
             {
-                var telefone = _telefoneRepository.GetTelefoneById(id);
-
-                if (telefone == null)
+                if (!_telefoneRepository.TelefoneExist(id))
                     return NotFound("Telefone não encontrado");
 
-                var telefoneDto = _mapper.Map<TelefoneDto>(telefone);
+                var telefone = _mapper.Map<TelefoneDto>(_telefoneRepository.GetTelefoneById(id));
 
-                return Ok(telefoneDto);
+                return Ok(telefone);
             }
             catch (Exception ex)
             {
                 return StatusCode(500, "Erro interno do servidor: " + ex.Message);
             }
         }
-
-
-        [HttpGet("GetByNumero")]
-        [ProducesResponseType(200, Type = typeof(IEnumerable<PessoaDto>))]
-        [ProducesResponseType(404)]
-        [ProducesResponseType(500)]
-        public IActionResult GetByNumero(string numero)
-        {
-            try
-            {
-                var pessoas = _telefoneRepository.GetPessoaByTelefone(numero);
-
-                if (pessoas == null || !pessoas.Any())
-                {
-                    return NotFound("Nenhuma pessoa encontrada com o número de telefone especificado");
-                }
-
-                var pessoasDto = _mapper.Map<IEnumerable<PessoaDto>>(pessoas);
-
-                return Ok(pessoasDto);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, "Erro interno do servidor: " + ex.Message);
-            }
-        }
-
-
+        
         [HttpPost]
         [ProducesResponseType(200, Type = typeof(TelefoneDto))]
         [ProducesResponseType(400)]
@@ -98,18 +71,26 @@ namespace WebAPIREST.Controllers
         {
             try
             {
+                if (telefoneView == null)
+                    return BadRequest(ModelState);
+
                 if (!ModelState.IsValid)
                     return BadRequest(ModelState);
 
                 if (!_pessoaRepository.PessoaExist(id_pessoa))
-                    return NotFound("Pessoa não encontrada");
+                    return NotFound("Pessoa não encontrada para associar o telefone");
 
                 var pessoa = _pessoaRepository.GetPessoaById(id_pessoa);
 
                 var telefone = new Telefone(telefoneView.Tipo, telefoneView.Numero);
 
                 pessoa.Telefones.Add(telefone);
-                _pessoaRepository.UpdatePessoa(pessoa);
+
+                if (!_pessoaRepository.UpdatePessoa(pessoa))
+                {
+                    ModelState.AddModelError("", "Ocorreu um erro ao  associar o telefone à pessoa");
+                    return StatusCode(500, ModelState);
+                }
 
                 return Ok("Telefone associado com sucesso à pessoa");
             }
@@ -119,10 +100,11 @@ namespace WebAPIREST.Controllers
             }
         }
 
-
         [HttpPut("{id}")]
         [ProducesResponseType(200, Type = typeof(TelefoneDto))]
         [ProducesResponseType(400)]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(500)]
         public IActionResult UpdateTelefone(int id, [FromBody] TelefoneViewModel telefoneViewModel)
         {
             try
@@ -146,7 +128,11 @@ namespace WebAPIREST.Controllers
                 telefoneExistente.Id_telefone = id;
                 telefoneExistente.PessoaId = telefoneExistente.PessoaId;
 
-                _telefoneRepository.UpdateTelefone(telefoneExistente);
+                if (!_telefoneRepository.UpdateTelefone(telefoneExistente))
+                {
+                    ModelState.AddModelError("", "Ocorreu um erro ao editar o telefone");
+                    return StatusCode(500, ModelState);
+                }
 
                 return Ok("Telefone atualizado com sucesso");
             }
@@ -160,6 +146,7 @@ namespace WebAPIREST.Controllers
         [ProducesResponseType(400)]
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]
+        [ProducesResponseType(500)]
         public IActionResult DeleteTelefone(int id)
         {
             try
@@ -177,6 +164,7 @@ namespace WebAPIREST.Controllers
                 if (!_telefoneRepository.DeleteTelefone(telefoneToDelete))
                 {
                     ModelState.AddModelError("", "Ocorreu um erro ao excluir o telefone");
+                    return StatusCode(500, ModelState);
                 }
 
                 return Ok("Telefone excluido com sucesso");

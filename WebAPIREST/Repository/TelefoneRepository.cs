@@ -37,21 +37,6 @@ namespace WebAPIREST.Repository
             }
         }
 
-        public ICollection<Pessoa> GetPessoaByTelefone(string id)
-        {
-            try
-            {
-                return _context
-                    .Pessoas.Include(p => p.Telefones)
-                    .Where(p => p.Telefones.Any(t => t.Numero == id))
-                    .ToList();
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Erro ao obter pessoas pelo telefone.", ex);
-            }
-        }
-
         public bool CreateTelefone(Telefone telefone)
         {
             try

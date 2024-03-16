@@ -9,7 +9,6 @@ namespace WebAPIREST.Interfaces
     {
         List<Telefone> GetAllTelefone();
         Telefone GetTelefoneById(int id);
-        ICollection<Pessoa> GetPessoaByTelefone(string id);
         bool TelefoneExist(int id);
         bool CreateTelefone(Telefone Telefone);
         bool UpdateTelefone(Telefone Telefone);

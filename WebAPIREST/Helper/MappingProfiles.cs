@@ -6,10 +6,10 @@ namespace WebAPIREST.Helper
 {
     public class MappingProfiles : Profile
     {
-        public MappingProfiles() {
+        public MappingProfiles()
+        {
             CreateMap<Pessoa, PessoaDto>();
             CreateMap<Telefone, TelefoneDto>();
         }
-   
     }
 }

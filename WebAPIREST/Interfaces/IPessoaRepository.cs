@@ -8,7 +8,8 @@ namespace WebAPIREST.Interfaces
     {
         List<Pessoa> GetAllPessoas();
         Pessoa GetPessoaById(int id);
-        Pessoa GetPessoaByName(string name);
+        List<Pessoa> GetPessoaByName(string name);
+        Pessoa GetPessoaByTelefone(string id);
         Pessoa GetPessoaByCPF(string cpf);
         bool PessoaExist(int id);
         bool CreatePessoa(Pessoa Pessoa);
