@@ -1,6 +1,6 @@
 using System.Text.Json.Serialization;
-using WebAPIREST.infraestrutura;
 using WebAPIREST.Interfaces;
+using WebAPIREST.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
 

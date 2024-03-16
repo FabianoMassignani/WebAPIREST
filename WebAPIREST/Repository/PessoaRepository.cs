@@ -1,19 +1,20 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using WebAPIREST.Interfaces;
-using WebAPIREST.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using WebAPIREST.infraestrutura;
+using WebAPIREST.Interfaces;
+using WebAPIREST.Models;
 
-namespace WebAPIREST.infraestrutura
+namespace WebAPIREST.Repository
 {
     public class PessoaRepository : IPessoaRepository
     {
         private readonly ConnectionContext _context = new ConnectionContext();
 
         [ProducesResponseType(200, Type = typeof(IEnumerable<Pessoa>))]
-        public List<Pessoa> GetAll()
+        public List<Pessoa> GetAllPessoas()
         {
             try
             {
@@ -25,7 +26,7 @@ namespace WebAPIREST.infraestrutura
             }
         }
 
-        public Pessoa GetById(int id)
+        public Pessoa GetPessoaById(int id)
         {
             try
             {
@@ -37,7 +38,7 @@ namespace WebAPIREST.infraestrutura
             }
         }
 
-        public Pessoa GetByNome(string nome)
+        public Pessoa GetPessoaByName(string nome)
         {
             try
             {
@@ -49,7 +50,7 @@ namespace WebAPIREST.infraestrutura
             }
         }
 
-        public Pessoa GetByCPF(string cpf)
+        public Pessoa GetPessoaByCPF(string cpf)
         {
             try
             {
@@ -73,12 +74,12 @@ namespace WebAPIREST.infraestrutura
             }
         }
 
-        public void Post(Pessoa pessoa)
+        public bool CreatePessoa(Pessoa pessoa)
         {
             try
             {
                 _context.Pessoas.Add(pessoa);
-                _context.SaveChanges();
+                return Save();
             }
             catch (Exception ex)
             {
@@ -86,7 +87,8 @@ namespace WebAPIREST.infraestrutura
             }
         }
 
-        public void Update(Pessoa pessoa)
+
+        public bool UpdatePessoa(Pessoa pessoa)
         {
             try
             {
@@ -97,7 +99,7 @@ namespace WebAPIREST.infraestrutura
 
                 _context.Entry(pessoa).State = EntityState.Modified;
 
-                _context.SaveChanges();
+                return Save();
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -113,9 +115,29 @@ namespace WebAPIREST.infraestrutura
             }
         }
 
-        public void Delete(int id)
+        public bool DeletePessoa(int id)
         {
             throw new NotImplementedException();
+        }
+
+        public bool DeletePessoa(Pessoa pessoa)
+        {
+            try
+            {
+                _context.Remove(pessoa);
+                return Save();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Erro ao deletar pessoa.", ex);
+            }
+        }
+
+        public bool Save()
+        {
+            var saved = _context.SaveChanges();
+
+            return saved > 0 ? true : false;
         }
     }
 }

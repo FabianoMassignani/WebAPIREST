@@ -8,15 +8,14 @@ namespace WebAPIREST.Models
     {
         [Key]
         public int Id_telefone { get; set; }
-        public string Tipo { get; private set; }
-        public string Numero { get; private set; }
+        public string Tipo { get; set; }
+        public string Numero { get; set; }
         public int PessoaId { get; set; }
         public Pessoa Pessoa { get; set; }
         public Telefone(string tipo, string numero)
         {
             this.Tipo = tipo;
             this.Numero = numero;
-           
         }
     }
 }

@@ -1,23 +1,19 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using WebAPIREST.Interfaces;
-using WebAPIREST.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using WebAPIREST.infraestrutura;
+using WebAPIREST.Interfaces;
+using WebAPIREST.Models;
 
-namespace WebAPIREST.infraestrutura
+namespace WebAPIREST.Repository
 {
     public class TelefoneRepository : ITelefoneRepository
     {
         private readonly ConnectionContext _context = new ConnectionContext();
 
-        public void Delete(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public List<Telefone> GetAll()
+        public List<Telefone> GetAllTelefone()
         {
             try
             {
@@ -29,7 +25,7 @@ namespace WebAPIREST.infraestrutura
             }
         }
 
-        public Telefone GetById(int id)
+        public Telefone GetTelefoneById(int id)
         {
             try
             {
@@ -56,12 +52,12 @@ namespace WebAPIREST.infraestrutura
             }
         }
 
-        public void Post(Telefone telefone)
+        public bool CreateTelefone(Telefone telefone)
         {
             try
             {
                 _context.Telefones.Add(telefone);
-                _context.SaveChanges();
+                return Save();
             }
             catch (Exception ex)
             {
@@ -81,7 +77,7 @@ namespace WebAPIREST.infraestrutura
             }
         }
 
-        public void Update(Telefone telefone)
+        public bool UpdateTelefone(Telefone telefone)
         {
             try
             {
@@ -92,7 +88,7 @@ namespace WebAPIREST.infraestrutura
 
                 _context.Entry(telefone).State = EntityState.Modified;
 
-                _context.SaveChanges();
+                return Save();
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -106,6 +102,26 @@ namespace WebAPIREST.infraestrutura
             {
                 throw new Exception("Erro ao atualizar telefone.", ex);
             }
+        }
+
+        public bool DeleteTelefone(Telefone telefone)
+        {
+            try
+            {
+                _context.Remove(telefone);
+                return Save();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Erro ao deletar telefone.", ex);
+            }
+        }
+
+        public bool Save()
+        {
+            var saved = _context.SaveChanges();
+
+            return saved > 0 ? true : false;
         }
     }
 }
