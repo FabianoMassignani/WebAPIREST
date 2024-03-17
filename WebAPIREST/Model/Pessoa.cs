@@ -12,8 +12,9 @@ namespace WebAPIREST.Models
         string genero,
         string endereco,
         string email,
-        DateTime data_atualizacao
-        )
+        DateTime data_atualizacao,
+        DateTime data_cadastro
+    )
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -26,6 +27,7 @@ namespace WebAPIREST.Models
         public string Endereco { get; set; } = endereco;
         public string Email { get; set; } = email;
         public DateTime Data_atualizacao { get; set; } = data_atualizacao;
+        public DateTime Data_cadastro { get; set; } = data_cadastro;
         public ICollection<Telefone> Telefones { get; set; } = [];
     }
 }

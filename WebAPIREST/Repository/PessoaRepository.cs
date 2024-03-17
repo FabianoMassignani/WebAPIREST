@@ -11,14 +11,14 @@ namespace WebAPIREST.Repository
 {
     public class PessoaRepository : IPessoaRepository
     {
-        private readonly ConnectionContext _context = new ConnectionContext();
+        private readonly ConnectionContext _context = new();
 
         [ProducesResponseType(200, Type = typeof(IEnumerable<Pessoa>))]
         public List<Pessoa> GetAllPessoas()
         {
             try
             {
-                return _context.Pessoas.Include(p => p.Telefones).ToList();
+                return [.. _context.Pessoas.Include(p => p.Telefones)];
             }
             catch (Exception ex)
             {
@@ -30,23 +30,12 @@ namespace WebAPIREST.Repository
         {
             try
             {
-                return _context.Pessoas.FirstOrDefault(p => p.Id_pessoa == id);
+                return _context.Pessoas.Include(p => p.Telefones)
+                    .FirstOrDefault(p => p.Id_pessoa == id);
             }
             catch (Exception ex)
             {
                 throw new Exception("Erro ao obter a pessoa por ID.", ex);
-            }
-        }
-
-        public Pessoa GetPessoaByCPF(string cpf)
-        {
-            try
-            {
-                return _context.Pessoas.FirstOrDefault(p => p.Cpf == cpf);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Erro ao obter a pessoa por CPF.", ex);
             }
         }
 
@@ -123,14 +112,14 @@ namespace WebAPIREST.Repository
         {
             var saved = _context.SaveChanges();
 
-            return saved > 0 ? true : false;
+            return saved > 0;
         }
 
         List<Pessoa> IPessoaRepository.GetPessoaByName(string nome)
         {
             try
             {
-                return _context.Pessoas.Where(p => p.Nome == nome).ToList();
+                return [.. _context.Pessoas.Where(p => p.Nome == nome)];
             }
             catch (Exception ex)
             {
@@ -143,8 +132,8 @@ namespace WebAPIREST.Repository
             try
             {
                 return _context
-             .Pessoas.Include(p => p.Telefones)
-             .FirstOrDefault(p => p.Telefones.Any(t => t.Numero == id));
+                        .Pessoas.Include(p => p.Telefones)
+                        .FirstOrDefault(p => p.Telefones.Any(t => t.Numero == id));
             }
             catch (Exception ex)
             {

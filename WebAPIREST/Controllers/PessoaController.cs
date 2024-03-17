@@ -42,14 +42,14 @@ namespace WebAPIREST.Controllers
         [ProducesResponseType(200, Type = typeof(PessoaDto))]
         [ProducesResponseType(404)]
         [ProducesResponseType(500)]
-        public IActionResult GetPessoaById([FromQuery] int id)
+        public IActionResult GetPessoaById(string id)
         {
             try
             {
-                if (!_pessoaRepository.PessoaExist(id))
+                if (!_pessoaRepository.PessoaExist(Int32.Parse(id)))
                     return NotFound("Pessoa não encontrada");
 
-                var pessoa = _mapper.Map<PessoaDto>(_pessoaRepository.GetPessoaById(id));
+                var pessoa = _mapper.Map<PessoaDto>(_pessoaRepository.GetPessoaById(Int32.Parse(id)));
 
                 if (!ModelState.IsValid)
                     return BadRequest(ModelState);
@@ -73,10 +73,9 @@ namespace WebAPIREST.Controllers
                 if (!ModelState.IsValid)
                     return BadRequest(ModelState);
 
-  
                 var pessoas = _mapper.Map<IEnumerable<PessoaDto>>(
-                   _pessoaRepository.GetPessoaByName(nome)
-               );
+                    _pessoaRepository.GetPessoaByName(nome)
+                );
 
                 return Ok(pessoas);
             }
@@ -105,7 +104,7 @@ namespace WebAPIREST.Controllers
                     );
 
                 var pessoaMap = _mapper.Map<PessoaDto>(pessoa);
-           
+
                 return Ok(pessoaMap);
             }
             catch (Exception ex)
@@ -139,6 +138,7 @@ namespace WebAPIREST.Controllers
                     pessoaCreate.Genero,
                     pessoaCreate.Endereco,
                     pessoaCreate.Email,
+                    DateTime.Now,
                     DateTime.Now
                 );
 
@@ -156,12 +156,12 @@ namespace WebAPIREST.Controllers
             }
         }
 
-        [HttpPut("{id}")]
+        [HttpPut]
         [ProducesResponseType(200, Type = typeof(PessoaDto))]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
         [ProducesResponseType(500)]
-        public IActionResult UpdatePessoa(int id, [FromBody] PessoaDto updatePessoa)
+        public IActionResult UpdatePessoa([FromBody] PessoaDto updatePessoa)
         {
             try
             {
@@ -170,29 +170,28 @@ namespace WebAPIREST.Controllers
 
                 if (updatePessoa == null)
                     return BadRequest("Dados da pessoa inválidos");
-
-                if (id != updatePessoa.Id_pessoa)
-                    return BadRequest("O ID informado na URL não corresponde ao ID do objeto");
-
-                if (!_pessoaRepository.PessoaExist(id))
+           
+                if (!_pessoaRepository.PessoaExist(updatePessoa.Id_pessoa))
                     return NotFound("Pessoa não encontrada");
 
                 if (!CpfCnpjUtils.IsValid(updatePessoa.Cpf))
                     return BadRequest("CPF inválido");
 
-                Pessoa pessoa = new(
-                    updatePessoa.Nome,
-                    updatePessoa.Data_nascimento,
-                    updatePessoa.Ativo,
-                    updatePessoa.Cpf,
-                    updatePessoa.Genero,
-                    updatePessoa.Endereco,
-                    updatePessoa.Email,
-                    DateTime.Now
-                )
-                {
-                    Id_pessoa = id
-                };
+                Pessoa pessoa =
+                    new(
+                        updatePessoa.Nome,
+                        updatePessoa.Data_nascimento,
+                        updatePessoa.Ativo,
+                        updatePessoa.Cpf,
+                        updatePessoa.Genero,
+                        updatePessoa.Endereco,
+                        updatePessoa.Email,
+                        DateTime.Now,
+                        updatePessoa.Data_cadastro
+                    )
+                    {
+                        Id_pessoa = updatePessoa.Id_pessoa
+                    };
 
                 if (!_pessoaRepository.UpdatePessoa(pessoa))
                 {

@@ -46,14 +46,14 @@ namespace WebAPIREST.Controllers
         [HttpGet("{id}")]
         [ProducesResponseType(200, Type = typeof(TelefoneDto))]
         [ProducesResponseType(404)]
-        public IActionResult GetById([FromQuery] int id)
+        public IActionResult GetById(string id)
         {
             try
             {
-                if (!_telefoneRepository.TelefoneExist(id))
+                if (!_telefoneRepository.TelefoneExist(Int32.Parse(id)))
                     return NotFound("Telefone não encontrado");
 
-                var telefone = _mapper.Map<TelefoneDto>(_telefoneRepository.GetTelefoneById(id));
+                var telefone = _mapper.Map<TelefoneDto>(_telefoneRepository.GetTelefoneById(Int32.Parse(id)));
 
                 return Ok(telefone);
             }
@@ -62,7 +62,7 @@ namespace WebAPIREST.Controllers
                 return StatusCode(500, "Erro interno do servidor: " + ex.Message);
             }
         }
-        
+
         [HttpPost]
         [ProducesResponseType(200, Type = typeof(TelefoneDto))]
         [ProducesResponseType(400)]
@@ -87,7 +87,10 @@ namespace WebAPIREST.Controllers
 
                 if (!_pessoaRepository.UpdatePessoa(pessoa))
                 {
-                    ModelState.AddModelError("", "Ocorreu um erro ao  associar o telefone à pessoa");
+                    ModelState.AddModelError(
+                        "",
+                        "Ocorreu um erro ao  associar o telefone à pessoa"
+                    );
                     return StatusCode(500, ModelState);
                 }
 
@@ -99,12 +102,15 @@ namespace WebAPIREST.Controllers
             }
         }
 
-        [HttpPut("{id}")]
+        [HttpPut]
         [ProducesResponseType(200, Type = typeof(TelefoneDto))]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
         [ProducesResponseType(500)]
-        public IActionResult UpdateTelefone([FromQuery] int id, [FromBody] TelefoneDto updateTelefone)
+        public IActionResult UpdateTelefone(
+       
+            [FromBody] TelefoneDto updateTelefone
+        )
         {
             try
             {
@@ -114,18 +120,14 @@ namespace WebAPIREST.Controllers
                 if (updateTelefone == null)
                     return BadRequest("Dados do Telefone inválidos");
 
-                if (id != updateTelefone.Id_telefone)
-                    return BadRequest("O ID informado na URL não corresponde ao ID do objeto");
-
-                if (!_telefoneRepository.TelefoneExist(id))
+                if (!_telefoneRepository.TelefoneExist(updateTelefone.Id_telefone))
                     return NotFound("Telefone não encontrado");
 
-                var telefone = _telefoneRepository.GetTelefoneById(id);
+                var telefone = _telefoneRepository.GetTelefoneById(updateTelefone.Id_telefone);
 
                 telefone.Numero = updateTelefone.Numero;
                 telefone.Tipo = updateTelefone.Tipo;
-                telefone.Id_telefone = id;
- 
+
                 if (!_telefoneRepository.UpdateTelefone(telefone))
                 {
                     ModelState.AddModelError("", "Ocorreu um erro ao editar o telefone");
@@ -140,7 +142,7 @@ namespace WebAPIREST.Controllers
             }
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete]
         [ProducesResponseType(400)]
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]

@@ -7,14 +7,14 @@ Accept: application/json
 
 ### GET /pessoa/{id}
 
-GET http://localhost:5074/pessoa/2
+GET http://localhost:5074/pessoa/
 Accept: application/json
 
 ###
 
 ### GET /pessoa/GetByNome/{nome}
 
-GET https://localhost:7101/GetByNome?nome=Joao
+GET https://localhost:7101/GetByNome?nome=string
 Accept: application/json
 
 ###
@@ -32,7 +32,7 @@ POST http://localhost:5074/pessoa
 Content-Type: application/json
 
 {
-  "nome": "Joao",
+  "nome": "Fabiano",
   "data_nascimento": "1990-01-01",
   "ativo": true,
   "cpf": "07738062967",
@@ -40,10 +40,8 @@ Content-Type: application/json
   "endereco": "Rua ABC",
   "email": "joao@example.com",
   "telefones": [
-  {
-        "tipo": "Celular",
-  "numero": "123456789"
-  }]
+   
+  ]
 }
 
 
@@ -51,19 +49,22 @@ Content-Type: application/json
 
 ### PUT /pessoa/{id}
 
-PUT http://localhost:5074/pessoa/2
+PUT http://localhost:5074/pessoa
 Content-Type: application/json
 
-{
-  "id_pessoa": 2,
-  "nome": "Joao",
-  "data_nascimento": "1990-01-01",
-  "ativo": true,
-  "cpf": "07738062967",
-  "genero": "M",
-  "endereco": "Rua ABC",
-  "email": "joao@example.com"
-}
+ {
+    "id_pessoa": 14,
+    "nome": "Fabiano",
+    "data_nascimento": "1990-01-01T00:00:00",
+    "ativo": true,
+    "cpf": "07738062967",
+    "genero": "M",
+    "endereco": "Rua ABC",
+    "email": "joao@example.com",
+    "data_atualizacao": "2024-03-17T16:09:16.882473",
+    "data_cadastro": "2024-03-17T16:09:16.882476",
+    "telefones": []
+  }
 
 ###
 

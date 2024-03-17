@@ -10,7 +10,6 @@ namespace WebAPIREST.Interfaces
         Pessoa GetPessoaById(int id);
         List<Pessoa> GetPessoaByName(string name);
         Pessoa GetPessoaByTelefone(string id);
-        Pessoa GetPessoaByCPF(string cpf);
         bool PessoaExist(int id);
         bool CreatePessoa(Pessoa Pessoa);
         bool UpdatePessoa(Pessoa Pessoa);
