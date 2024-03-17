@@ -1,4 +1,17 @@
-# WebAPIREST
+# Avaliação de candidato (.NET)
 
- Add-Migration InitialCreate
- Update-Database
+# Migration
+
+Para realizar a migração do banco de dados, execute os seguintes comandos:
+
+ - Add-Migration InitialCreate
+ - Update-Database
+
+## Dependências
+
+- AutoMapper
+- Microsoft.EntityFrameworkCore
+- Npgsql
+- Npgsql.EntityFrameworkCore.PostgreSQL
+- Swashbuckle.AspNetCore
+
