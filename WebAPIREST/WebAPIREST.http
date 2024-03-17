@@ -7,7 +7,7 @@ Accept: application/json
 
 ### GET /pessoa/{id}
 
-GET http://localhost:5074/pessoa/1
+GET http://localhost:5074/pessoa/2
 Accept: application/json
 
 ###
@@ -38,22 +38,28 @@ Content-Type: application/json
   "cpf": "07738062967",
   "genero": "M",
   "endereco": "Rua ABC",
-  "email": "joao@example.com"
+  "email": "joao@example.com",
+  "telefones": [
+  {
+        "tipo": "Celular",
+  "numero": "123456789"
+  }]
 }
+
 
 ###
 
 ### PUT /pessoa/{id}
 
-PUT http://localhost:5074/pessoa/1
+PUT http://localhost:5074/pessoa/2
 Content-Type: application/json
 
 {
-  "id_pessoa": 1,
+  "id_pessoa": 2,
   "nome": "Joao",
   "data_nascimento": "1990-01-01",
   "ativo": true,
-  "cpf": "12345678901",
+  "cpf": "07738062967",
   "genero": "M",
   "endereco": "Rua ABC",
   "email": "joao@example.com"
@@ -63,7 +69,7 @@ Content-Type: application/json
 
 ### DELETE /pessoa/{id}
 
-DELETE http://localhost:5074/pessoa/5
+DELETE http://localhost:5074/pessoa/8
 Accept: application/json
 
 ###
@@ -85,7 +91,7 @@ Accept: application/json
 
 ### POST /telefone?id_pessoa=1
 
-POST http://localhost:5074/telefone?id_pessoa=1
+POST http://localhost:5074/telefone?id_pessoa=11
 Content-Type: application/json
 
 {

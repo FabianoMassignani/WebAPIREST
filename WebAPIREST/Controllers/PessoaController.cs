@@ -5,17 +5,15 @@ using WebAPIREST.Interfaces;
 using WebAPIREST.Models;
 using WebAPIREST.Repository;
 using WebAPIREST.Utils;
-using WebAPIREST.ViewModel;
 
 namespace WebAPIREST.Controllers
 {
     [Route("/pessoa")]
     [ApiController]
-    public class PessoaController(IPessoaRepository pessoaRepository, ITelefoneRepository telefoneRepository, IMapper mapper)
+    public class PessoaController(IPessoaRepository pessoaRepository, IMapper mapper)
         : ControllerBase
     {
         private readonly IPessoaRepository _pessoaRepository = pessoaRepository;
-        private readonly ITelefoneRepository _telefoneRepository = telefoneRepository;
         private readonly IMapper _mapper = mapper;
 
         [HttpGet]
@@ -44,7 +42,7 @@ namespace WebAPIREST.Controllers
         [ProducesResponseType(200, Type = typeof(PessoaDto))]
         [ProducesResponseType(404)]
         [ProducesResponseType(500)]
-        public IActionResult GetPessoaById(int id)
+        public IActionResult GetPessoaById([FromQuery] int id)
         {
             try
             {
@@ -65,10 +63,10 @@ namespace WebAPIREST.Controllers
         }
 
         [HttpGet("/GetByNome")]
-        [ProducesResponseType(200, Type = typeof(PessoaDto))]
+        [ProducesResponseType(200, Type = typeof(IEnumerable<PessoaDto>))]
         [ProducesResponseType(404)]
         [ProducesResponseType(500)]
-        public IActionResult GetPessoaByName(string nome)
+        public IActionResult GetPessoaByName([FromQuery] string nome)
         {
             try
             {
@@ -88,11 +86,11 @@ namespace WebAPIREST.Controllers
             }
         }
 
-        [HttpGet("/GetPessoaByNumero")]
+        [HttpGet("/GetPessoaByTelefone")]
         [ProducesResponseType(200, Type = typeof(IEnumerable<PessoaDto>))]
         [ProducesResponseType(404)]
         [ProducesResponseType(500)]
-        public IActionResult GetByNumero(string numero)
+        public IActionResult GetByNumero([FromQuery] string numero)
         {
             try
             {
@@ -120,27 +118,27 @@ namespace WebAPIREST.Controllers
         [ProducesResponseType(201, Type = typeof(PessoaDto))]
         [ProducesResponseType(400)]
         [ProducesResponseType(500)]
-        public IActionResult CreatePessoa(PessoaViewModel pessoaView)
+        public IActionResult CreatePessoa([FromBody] PessoaDto pessoaCreate)
         {
             try
             {
-                if (pessoaView == null)
+                if (pessoaCreate == null)
                     return BadRequest(ModelState);
 
                 if (!ModelState.IsValid)
                     return BadRequest(ModelState);
 
-                if (!CpfCnpjUtils.IsValid(pessoaView.Cpf))
+                if (!CpfCnpjUtils.IsValid(pessoaCreate.Cpf))
                     return BadRequest("CPF inválido");
 
                 var pessoa = new Pessoa(
-                    pessoaView.Nome,
-                    pessoaView.Data_nascimento,
-                    pessoaView.Ativo,
-                    pessoaView.Cpf,
-                    pessoaView.Genero,
-                    pessoaView.Endereco,
-                    pessoaView.Email,
+                    pessoaCreate.Nome,
+                    pessoaCreate.Data_nascimento,
+                    pessoaCreate.Ativo,
+                    pessoaCreate.Cpf,
+                    pessoaCreate.Genero,
+                    pessoaCreate.Endereco,
+                    pessoaCreate.Email,
                     DateTime.Now
                 );
 
@@ -163,37 +161,38 @@ namespace WebAPIREST.Controllers
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
         [ProducesResponseType(500)]
-        public IActionResult UpdatePessoa(int id, [FromBody] PessoaViewModel pessoaViewModel)
+        public IActionResult UpdatePessoa(int id, [FromBody] PessoaDto updatePessoa)
         {
             try
             {
                 if (!ModelState.IsValid)
                     return BadRequest(ModelState);
 
-                if (pessoaViewModel == null)
+                if (updatePessoa == null)
                     return BadRequest("Dados da pessoa inválidos");
 
-                if (id != pessoaViewModel.Id_pessoa)
+                if (id != updatePessoa.Id_pessoa)
                     return BadRequest("O ID informado na URL não corresponde ao ID do objeto");
 
                 if (!_pessoaRepository.PessoaExist(id))
                     return NotFound("Pessoa não encontrada");
 
-                if (!CpfCnpjUtils.IsValid(pessoaViewModel.Cpf))
+                if (!CpfCnpjUtils.IsValid(updatePessoa.Cpf))
                     return BadRequest("CPF inválido");
 
-                Pessoa pessoa = new Pessoa(
-                    pessoaViewModel.Nome,
-                    pessoaViewModel.Data_nascimento,
-                    pessoaViewModel.Ativo,
-                    pessoaViewModel.Cpf,
-                    pessoaViewModel.Genero,
-                    pessoaViewModel.Endereco,
-                    pessoaViewModel.Email,
+                Pessoa pessoa = new(
+                    updatePessoa.Nome,
+                    updatePessoa.Data_nascimento,
+                    updatePessoa.Ativo,
+                    updatePessoa.Cpf,
+                    updatePessoa.Genero,
+                    updatePessoa.Endereco,
+                    updatePessoa.Email,
                     DateTime.Now
-                );
-
-                pessoa.Id_pessoa = id;
+                )
+                {
+                    Id_pessoa = id
+                };
 
                 if (!_pessoaRepository.UpdatePessoa(pessoa))
                 {

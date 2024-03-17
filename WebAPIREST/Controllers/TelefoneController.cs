@@ -6,7 +6,6 @@ using WebAPIREST.Dto;
 using WebAPIREST.infraestrutura;
 using WebAPIREST.Interfaces;
 using WebAPIREST.Models;
-using WebAPIREST.ViewModel;
 
 namespace WebAPIREST.Controllers
 {
@@ -47,7 +46,7 @@ namespace WebAPIREST.Controllers
         [HttpGet("{id}")]
         [ProducesResponseType(200, Type = typeof(TelefoneDto))]
         [ProducesResponseType(404)]
-        public IActionResult GetById(int id)
+        public IActionResult GetById([FromQuery] int id)
         {
             try
             {
@@ -67,11 +66,11 @@ namespace WebAPIREST.Controllers
         [HttpPost]
         [ProducesResponseType(200, Type = typeof(TelefoneDto))]
         [ProducesResponseType(400)]
-        public IActionResult Post([FromQuery] int id_pessoa, TelefoneViewModel telefoneView)
+        public IActionResult Post([FromQuery] int id_pessoa, TelefoneDto createdTelefone)
         {
             try
             {
-                if (telefoneView == null)
+                if (createdTelefone == null)
                     return BadRequest(ModelState);
 
                 if (!ModelState.IsValid)
@@ -82,7 +81,7 @@ namespace WebAPIREST.Controllers
 
                 var pessoa = _pessoaRepository.GetPessoaById(id_pessoa);
 
-                var telefone = new Telefone(telefoneView.Tipo, telefoneView.Numero);
+                Telefone telefone = new(createdTelefone.Tipo, createdTelefone.Numero);
 
                 pessoa.Telefones.Add(telefone);
 
@@ -105,30 +104,29 @@ namespace WebAPIREST.Controllers
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
         [ProducesResponseType(500)]
-        public IActionResult UpdateTelefone(int id, [FromBody] TelefoneViewModel telefoneViewModel)
+        public IActionResult UpdateTelefone([FromQuery] int id, [FromBody] TelefoneDto updateTelefone)
         {
             try
             {
                 if (!ModelState.IsValid)
                     return BadRequest(ModelState);
 
-                if (telefoneViewModel == null)
+                if (updateTelefone == null)
                     return BadRequest("Dados do Telefone inválidos");
 
-                if (id != telefoneViewModel.Id_telefone)
+                if (id != updateTelefone.Id_telefone)
                     return BadRequest("O ID informado na URL não corresponde ao ID do objeto");
 
                 if (!_telefoneRepository.TelefoneExist(id))
                     return NotFound("Telefone não encontrado");
 
-                var telefoneExistente = _telefoneRepository.GetTelefoneById(id);
+                var telefone = _telefoneRepository.GetTelefoneById(id);
 
-                telefoneExistente.Numero = telefoneViewModel.Numero;
-                telefoneExistente.Tipo = telefoneViewModel.Tipo;
-                telefoneExistente.Id_telefone = id;
-                telefoneExistente.PessoaId = telefoneExistente.PessoaId;
-
-                if (!_telefoneRepository.UpdateTelefone(telefoneExistente))
+                telefone.Numero = updateTelefone.Numero;
+                telefone.Tipo = updateTelefone.Tipo;
+                telefone.Id_telefone = id;
+ 
+                if (!_telefoneRepository.UpdateTelefone(telefone))
                 {
                     ModelState.AddModelError("", "Ocorreu um erro ao editar o telefone");
                     return StatusCode(500, ModelState);
@@ -147,7 +145,7 @@ namespace WebAPIREST.Controllers
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]
         [ProducesResponseType(500)]
-        public IActionResult DeleteTelefone(int id)
+        public IActionResult DeleteTelefone([FromQuery] int id)
         {
             try
             {
