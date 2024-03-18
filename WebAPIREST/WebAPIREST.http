@@ -30,6 +30,7 @@ Accept: application/json
 
 POST http://localhost:5074/pessoa
 Content-Type: application/json
+Accept: application/json
 
 {
   "nome": "Fabiano",
@@ -47,6 +48,7 @@ Content-Type: application/json
 
 PUT http://localhost:5074/pessoa
 Content-Type: application/json
+Accept: application/json
 
 {
   "id_pessoa": 14,
@@ -64,7 +66,7 @@ Content-Type: application/json
 
 ### DELETE /pessoa/{id}
 
-DELETE http://localhost:5074/pessoa/{id}
+DELETE http://localhost:5074/pessoa/12
 Accept: application/json
 
 ###
@@ -80,7 +82,8 @@ Accept: application/json
 
 GET http://localhost:5074/telefone/13
 Accept: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImZhYmlhbm8iLCJyb2xlIjoiYWRtaW4iLCJuYmYiOjE3MTA3NzAxMDgsImV4cCI6MTcxMDc3MzcwOCwiaWF0IjoxNzEwNzcwMTA4fQ.GLHrzkth4LLKZYnhGtGt5l1AiugdNlfPUpTutSlI1iY
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImZhYmlhbm8iLCJyb2xlIjoiYWRtaW4iLCJuYmYiOjE3MTA3ODQ3OTUsImV4cCI6MTcxMDc4ODM5NSwiaWF0IjoxNzEwNzg0Nzk1fQ.gHXYlq9Z_Vk5JgACtwnJMWxtsAu87A_4HiMTig3CIIs
+
 
 ###
 
@@ -88,6 +91,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6I
 
 POST http://localhost:5074/telefone?id_pessoa=1
 Content-Type: application/json
+Accept: application/json
 
 {
   "tipo": "Celular",
@@ -100,6 +104,7 @@ Content-Type: application/json
 
 PUT http://localhost:5074/telefone
 Content-Type: application/json
+Accept: application/json
 
 {
   "id_telefone": 6,
@@ -119,25 +124,43 @@ Accept: application/json
 ### GET /usuario/all
 
 GET http://localhost:5074/usuario/all
-
- ###
+Accept: application/json
+Authorization: Bearer  eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImZhYmlhbm8iLCJyb2xlIjoiYWRtaW4iLCJuYmYiOjE3MTA3ODQ3OTUsImV4cCI6MTcxMDc4ODM5NSwiaWF0IjoxNzEwNzg0Nzk1fQ.gHXYlq9Z_Vk5JgACtwnJMWxtsAu87A_4HiMTig3CIIs
+###
 
 ### POST /usuario/register
 
 POST http://localhost:5074/usuario/register
 Content-Type: application/json
+Accept: application/json
 
 {
   "username": "fabiano1",
   "password": "fabiano",
-  "role": "admin"
+  "role": "employee"
 }
- ###
+
+###
 
 ### POST /usuario/login
 
 POST http://localhost:5074/usuario/login
 Content-Type: application/json
+Accept: application/json
+
+{
+  "username": "fabiano1",
+  "password": "fabiano"
+}
+
+###
+
+### DELETE /usuario
+
+DELETE https://localhost:7101/usuario
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImZhYmlhbm8iLCJyb2xlIjoiYWRtaW4iLCJuYmYiOjE3MTA3ODQzMzksImV4cCI6MTcxMDc4NzkzOSwiaWF0IjoxNzEwNzg0MzM5fQ.89yBR6wAI0228Ze8BFyKOXfm44T6W0Dg2voFpOH_kkU
 
 {
   "username": "fabiano",

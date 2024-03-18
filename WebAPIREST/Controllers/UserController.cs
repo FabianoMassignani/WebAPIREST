@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebAPIREST.Dto;
 using WebAPIREST.Interfaces;
 using WebAPIREST.Models;
+using WebAPIREST.Repository;
 using WebAPIREST.Services;
 
 namespace WebAPIREST.Controllers
@@ -16,6 +18,7 @@ namespace WebAPIREST.Controllers
         private readonly IMapper _mapper = mapper;
 
         [HttpGet("all")]
+        [Authorize(Roles ="admin")]
         [ProducesResponseType(200, Type = typeof(IEnumerable<UsersDto>))]
         [ProducesResponseType(500)]
         public IActionResult GetAllUsers()
@@ -92,6 +95,43 @@ namespace WebAPIREST.Controllers
             catch (Exception ex)
             {
                 return StatusCode(500, "Erro interno do servidor: " + ex.Message);
+            }
+        }
+
+        [HttpDelete]
+        [Authorize]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(500)]
+        public IActionResult DeleteTelefone([FromBody] UsersLoginDto loginDto)
+        {
+            try
+            {
+                var user = _usersRepository.GetByUsernameAndPassword(
+                    loginDto.Username,
+                    loginDto.Password
+                );
+
+                if (user == null)
+                {
+                    return Unauthorized("Nome de usuário ou senha inválidos");
+                }
+
+                if (!ModelState.IsValid)
+                    return BadRequest(ModelState);
+
+                if (!_usersRepository.DeleteUser(user))
+                {
+                    ModelState.AddModelError("", "Ocorreu um erro ao excluir o usuário");
+                    return StatusCode(500, ModelState);
+                }
+
+                return Ok("Usuário excluido com sucesso");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Erro interno do servidor: " + ex);
             }
         }
     }

@@ -36,13 +36,13 @@ builder
 
 builder.Services.AddAuthorization(options =>
 {
-    options.AddPolicy("Admin",
+    options.AddPolicy("admin",
         policy =>
         {
             policy.RequireRole("admin");
         }
     );
-    options.AddPolicy("Employee",
+    options.AddPolicy("employee",
         policy =>
         {
             policy.RequireRole("employee");

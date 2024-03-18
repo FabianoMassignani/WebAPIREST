@@ -75,11 +75,26 @@ namespace WebAPIREST.Repository
             }
         }
 
+      
+        public bool DeleteUser(User user)
+        {
+            try
+            {
+                _context.Remove(user);
+                return Save();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Erro ao deletar usuario.", ex);
+            }
+        }
+
         public bool Save()
         {
             var saved = _context.SaveChanges();
 
             return saved > 0;
         }
+
     }
 }

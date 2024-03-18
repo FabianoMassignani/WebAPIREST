@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections.Generic;
 using WebAPIREST.Dto;
 using WebAPIREST.Interfaces;
 using WebAPIREST.Models;
@@ -11,10 +13,16 @@ namespace WebAPIREST.Controllers
 {
     [Route("/pessoa")]
     [ApiController]
-    public class PessoaController(IUserRepository pessoaRepository, IMapper mapper) : ControllerBase
+    public class PessoaController : ControllerBase
     {
-        private readonly IUserRepository _pessoaRepository = pessoaRepository;
-        private readonly IMapper _mapper = mapper;
+        private readonly IUserRepository _pessoaRepository;
+        private readonly IMapper _mapper;
+
+        public PessoaController(IUserRepository pessoaRepository, IMapper mapper)
+        {
+            _pessoaRepository = pessoaRepository;
+            _mapper = mapper;
+        }
 
         [HttpGet("all")]
         [ProducesResponseType(200, Type = typeof(IEnumerable<PessoaDto>))]
@@ -26,9 +34,6 @@ namespace WebAPIREST.Controllers
                 var pessoas = _mapper.Map<IEnumerable<PessoaDto>>(
                     _pessoaRepository.GetAllPessoas()
                 );
-
-                if (!ModelState.IsValid)
-                    return BadRequest(ModelState);
 
                 return Ok(pessoas);
             }
@@ -53,9 +58,6 @@ namespace WebAPIREST.Controllers
                     _pessoaRepository.GetPessoaById(Int32.Parse(id))
                 );
 
-                if (!ModelState.IsValid)
-                    return BadRequest(ModelState);
-
                 return Ok(pessoa);
             }
             catch (Exception ex)
@@ -72,9 +74,6 @@ namespace WebAPIREST.Controllers
         {
             try
             {
-                if (!ModelState.IsValid)
-                    return BadRequest(ModelState);
-
                 var pessoas = _mapper.Map<IEnumerable<PessoaDto>>(
                     _pessoaRepository.GetPessoaByName(nome)
                 );
@@ -88,16 +87,13 @@ namespace WebAPIREST.Controllers
         }
 
         [HttpGet("/GetPessoaByTelefone")]
-        [ProducesResponseType(200, Type = typeof(IEnumerable<PessoaDto>))]
+        [ProducesResponseType(200, Type = typeof(PessoaDto))]
         [ProducesResponseType(404)]
         [ProducesResponseType(500)]
         public IActionResult GetByNumero([FromQuery] string numero)
         {
             try
             {
-                if (!ModelState.IsValid)
-                    return BadRequest(ModelState);
-
                 var pessoa = _pessoaRepository.GetPessoaByTelefone(numero);
 
                 if (pessoa == null)
@@ -118,16 +114,12 @@ namespace WebAPIREST.Controllers
         [HttpPost]
         [ProducesResponseType(201, Type = typeof(PessoaDto))]
         [ProducesResponseType(400)]
-        [ProducesResponseType(401)]
         [ProducesResponseType(500)]
-        public IActionResult CreatePessoa([FromBody] PessoaDto pessoaCreate)
+        public IActionResult CreatePessoa([FromBody] PessoaNewUpdateDto pessoaCreate)
         {
             try
             {
                 if (pessoaCreate == null)
-                    return BadRequest(ModelState);
-
-                if (!ModelState.IsValid)
                     return BadRequest(ModelState);
 
                 if (!CpfCnpjUtils.IsValid(pessoaCreate.Cpf))
@@ -151,7 +143,7 @@ namespace WebAPIREST.Controllers
                     return StatusCode(500, ModelState);
                 }
 
-                return Ok(new { Message = "Pessoa criada com sucesso.", Pessoa = pessoa });
+                return CreatedAtAction(nameof(GetPessoaById), new { id = pessoa.Id_pessoa }, pessoa);
             }
             catch (Exception ex)
             {
@@ -164,18 +156,17 @@ namespace WebAPIREST.Controllers
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
         [ProducesResponseType(500)]
-        public IActionResult UpdatePessoa([FromBody] PessoaDto updatePessoa)
+        public IActionResult UpdatePessoa([FromQuery] int Id_pessoa, [FromBody] PessoaNewUpdateDto updatePessoa)
         {
             try
             {
-                if (!ModelState.IsValid)
-                    return BadRequest(ModelState);
-
                 if (updatePessoa == null)
                     return BadRequest("Dados da pessoa inválidos");
 
-                if (!_pessoaRepository.PessoaExist(updatePessoa.Id_pessoa))
+                if (!_pessoaRepository.PessoaExist(Id_pessoa))
                     return NotFound("Pessoa não encontrada");
+
+                var pessoaToUpdate = _pessoaRepository.GetPessoaById(Id_pessoa);
 
                 if (!CpfCnpjUtils.IsValid(updatePessoa.Cpf))
                     return BadRequest("CPF inválido");
@@ -190,10 +181,10 @@ namespace WebAPIREST.Controllers
                         updatePessoa.Endereco,
                         updatePessoa.Email,
                         DateTime.Now,
-                        updatePessoa.Data_cadastro
+                        pessoaToUpdate.Data_cadastro
                     )
                     {
-                        Id_pessoa = updatePessoa.Id_pessoa
+                        Id_pessoa = Id_pessoa
                     };
 
                 if (!_pessoaRepository.UpdatePessoa(pessoa))
@@ -210,24 +201,21 @@ namespace WebAPIREST.Controllers
             }
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete]
         [ProducesResponseType(400)]
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]
         [ProducesResponseType(500)]
-        public IActionResult DeletePessoa(int id)
+        public IActionResult DeletePessoa([FromQuery] int Id_pessoa)
         {
             try
             {
-                if (!_pessoaRepository.PessoaExist(id))
+                if (!_pessoaRepository.PessoaExist(Id_pessoa))
                 {
                     return NotFound();
                 }
 
-                var pessoaToDelete = _pessoaRepository.GetPessoaById(id);
-
-                if (!ModelState.IsValid)
-                    return BadRequest(ModelState);
+                var pessoaToDelete = _pessoaRepository.GetPessoaById(Id_pessoa);
 
                 if (!_pessoaRepository.DeletePessoa(pessoaToDelete))
                 {
@@ -235,7 +223,7 @@ namespace WebAPIREST.Controllers
                     return StatusCode(500, ModelState);
                 }
 
-                return Ok("Pessoa excluida com sucesso");
+                return NoContent();
             }
             catch (Exception ex)
             {

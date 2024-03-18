@@ -9,6 +9,7 @@ namespace WebAPIREST.Interfaces
         User GetByUsernameAndPassword(string username, string password);
         IEnumerable<User> GetAllUsers();
         bool CreateUser(User user);
+        bool DeleteUser(User user);
         bool Save();
     }
 }
