@@ -43,19 +43,19 @@ namespace WebAPIREST.Controllers
             }
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("GetById")]
         [ProducesResponseType(200, Type = typeof(PessoaDto))]
         [ProducesResponseType(404)]
         [ProducesResponseType(500)]
-        public IActionResult GetPessoaById(string id)
+        public IActionResult GetPessoaById([FromQuery] int Id_pessoa)
         {
             try
             {
-                if (!_pessoaRepository.PessoaExist(Int32.Parse(id)))
+                if (!_pessoaRepository.PessoaExist(Id_pessoa))
                     return NotFound("Pessoa não encontrada");
 
                 var pessoa = _mapper.Map<PessoaDto>(
-                    _pessoaRepository.GetPessoaById(Int32.Parse(id))
+                    _pessoaRepository.GetPessoaById(Id_pessoa)
                 );
 
                 return Ok(pessoa);
@@ -66,7 +66,7 @@ namespace WebAPIREST.Controllers
             }
         }
 
-        [HttpGet("/GetByNome")]
+        [HttpGet("GetByNome")]
         [ProducesResponseType(200, Type = typeof(IEnumerable<PessoaDto>))]
         [ProducesResponseType(404)]
         [ProducesResponseType(500)]
@@ -86,7 +86,7 @@ namespace WebAPIREST.Controllers
             }
         }
 
-        [HttpGet("/GetPessoaByTelefone")]
+        [HttpGet("GetPessoaByTelefone")]
         [ProducesResponseType(200, Type = typeof(PessoaDto))]
         [ProducesResponseType(404)]
         [ProducesResponseType(500)]

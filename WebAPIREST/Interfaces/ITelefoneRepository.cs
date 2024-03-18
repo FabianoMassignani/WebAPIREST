@@ -6,6 +6,7 @@ namespace WebAPIREST.Interfaces
     {
         List<Telefone> GetAllTelefone();
         Telefone GetTelefoneById(int id);
+        bool GetByNumero(string numero);
         bool TelefoneExist(int id);
         bool CreateTelefone(Telefone Telefone);
         bool UpdateTelefone(Telefone Telefone);

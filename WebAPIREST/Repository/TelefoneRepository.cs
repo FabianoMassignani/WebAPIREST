@@ -98,11 +98,25 @@ namespace WebAPIREST.Repository
             }
         }
 
+        public bool GetByNumero(string numero)
+        {
+            try
+            {
+                _context.Telefones.FirstOrDefault(p => p.Numero == numero);
+
+                return Save();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Erro ao deletar telefone.", ex);
+            }
+        }
         public bool Save()
         {
             var saved = _context.SaveChanges();
 
             return saved > 0;
         }
+
     }
 }

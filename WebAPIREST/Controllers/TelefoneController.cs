@@ -83,6 +83,9 @@ namespace WebAPIREST.Controllers
                 if (!_pessoaRepository.PessoaExist(id_pessoa))
                     return NotFound("Pessoa não encontrada para associar o telefone");
 
+                if (!_telefoneRepository.GetByNumero(createdTelefone.Numero))
+                    return NotFound("Telefone já cadastrado");
+
                 var pessoa = _pessoaRepository.GetPessoaById(id_pessoa);
 
                 var telefone = _mapper.Map<Telefone>(createdTelefone);

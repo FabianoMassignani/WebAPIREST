@@ -12,8 +12,8 @@ using WebAPIREST.infraestrutura;
 namespace WebAPIREST.Migrations
 {
     [DbContext(typeof(ConnectionContext))]
-    [Migration("20240316003803_InitialCreate2")]
-    partial class InitialCreate2
+    [Migration("20240318211516_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -41,6 +41,9 @@ namespace WebAPIREST.Migrations
                         .HasColumnType("text");
 
                     b.Property<DateTime>("Data_atualizacao")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<DateTime>("Data_cadastro")
                         .HasColumnType("timestamp without time zone");
 
                     b.Property<DateTime>("Data_nascimento")
@@ -91,6 +94,31 @@ namespace WebAPIREST.Migrations
                     b.HasIndex("PessoaId");
 
                     b.ToTable("telefone");
+                });
+
+            modelBuilder.Entity("WebAPIREST.Models.User", b =>
+                {
+                    b.Property<int>("Id_user")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id_user"));
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Role")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Username")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id_user");
+
+                    b.ToTable("user");
                 });
 
             modelBuilder.Entity("WebAPIREST.Models.Telefone", b =>

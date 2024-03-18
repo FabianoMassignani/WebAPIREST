@@ -18,7 +18,7 @@ namespace WebAPIREST.Controllers
         private readonly IMapper _mapper = mapper;
 
         [HttpGet("all")]
-        [Authorize(Roles ="admin")]
+        [Authorize(Roles = "admin")]
         [ProducesResponseType(200, Type = typeof(IEnumerable<UsersDto>))]
         [ProducesResponseType(500)]
         public IActionResult GetAllUsers()
@@ -100,8 +100,8 @@ namespace WebAPIREST.Controllers
 
         [HttpDelete]
         [Authorize]
-        [ProducesResponseType(400)]
         [ProducesResponseType(200)]
+        [ProducesResponseType(401)]
         [ProducesResponseType(404)]
         [ProducesResponseType(500)]
         public IActionResult DeleteTelefone([FromBody] UsersLoginDto loginDto)
