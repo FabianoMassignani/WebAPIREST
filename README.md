@@ -2,16 +2,16 @@
 
 # Migration
 
-Para realizar a migração do banco de dados, execute os seguintes comandos:
+Para realizar a migração do banco de dados, execute os comandos:
 
  - Add-Migration InitialCreate
  - Update-Database
 
 ## Dependências
 
+- Authentication.jwtbearer
 - AutoMapper
 - Microsoft.EntityFrameworkCore
 - Npgsql
 - Npgsql.EntityFrameworkCore.PostgreSQL
 - Swashbuckle.AspNetCore
-
