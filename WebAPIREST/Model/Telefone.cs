@@ -10,7 +10,11 @@ namespace WebAPIREST.Models
     {
         [Key]
         public int Id_telefone { get; set; }
+
+        [Required]
         public string? Tipo { get; set; } = tipo;
+
+        [Required]
         public string? Numero { get; set; } = numero;
         public int PessoaId { get; set; }
         public Pessoa? Pessoa { get; set; }

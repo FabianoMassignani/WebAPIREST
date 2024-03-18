@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Numerics;
-using WebAPIREST.Models;
+﻿using WebAPIREST.Models;
 
 namespace WebAPIREST.Interfaces
 {

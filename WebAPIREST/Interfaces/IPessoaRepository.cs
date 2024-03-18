@@ -4,7 +4,7 @@ using WebAPIREST.Models;
 
 namespace WebAPIREST.Interfaces
 {
-    public interface IPessoaRepository
+    public interface IUserRepository
     {
         List<Pessoa> GetAllPessoas();
         Pessoa GetPessoaById(int id);

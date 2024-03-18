@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebAPIREST.Dto;
 using WebAPIREST.infraestrutura;
@@ -13,15 +14,15 @@ namespace WebAPIREST.Controllers
     [ApiController]
     public class TelefoneController(
         ITelefoneRepository telefoneRepository,
-        IPessoaRepository pessoaRepository,
+        IUserRepository pessoaRepository,
         IMapper mapper
     ) : ControllerBase
     {
         private readonly ITelefoneRepository _telefoneRepository = telefoneRepository;
-        private readonly IPessoaRepository _pessoaRepository = pessoaRepository;
+        private readonly IUserRepository _pessoaRepository = pessoaRepository;
         private readonly IMapper _mapper = mapper;
 
-        [HttpGet]
+        [HttpGet("all")]
         [ProducesResponseType(200, Type = typeof(IEnumerable<TelefoneDto>))]
         [ProducesResponseType(500)]
         public IActionResult Get()
@@ -44,6 +45,7 @@ namespace WebAPIREST.Controllers
         }
 
         [HttpGet("{id}")]
+        [Authorize]
         [ProducesResponseType(200, Type = typeof(TelefoneDto))]
         [ProducesResponseType(404)]
         public IActionResult GetById(string id)
@@ -53,7 +55,9 @@ namespace WebAPIREST.Controllers
                 if (!_telefoneRepository.TelefoneExist(Int32.Parse(id)))
                     return NotFound("Telefone não encontrado");
 
-                var telefone = _mapper.Map<TelefoneDto>(_telefoneRepository.GetTelefoneById(Int32.Parse(id)));
+                var telefone = _mapper.Map<TelefoneDto>(
+                    _telefoneRepository.GetTelefoneById(Int32.Parse(id))
+                );
 
                 return Ok(telefone);
             }
@@ -81,7 +85,7 @@ namespace WebAPIREST.Controllers
 
                 var pessoa = _pessoaRepository.GetPessoaById(id_pessoa);
 
-                Telefone telefone = new(createdTelefone.Tipo, createdTelefone.Numero);
+                var telefone = _mapper.Map<Telefone>(createdTelefone);
 
                 pessoa.Telefones.Add(telefone);
 
@@ -103,14 +107,11 @@ namespace WebAPIREST.Controllers
         }
 
         [HttpPut]
-        [ProducesResponseType(200, Type = typeof(TelefoneDto))]
+        [ProducesResponseType(200, Type = typeof(TelefoneUpdateDto))]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
         [ProducesResponseType(500)]
-        public IActionResult UpdateTelefone(
-       
-            [FromBody] TelefoneDto updateTelefone
-        )
+        public IActionResult UpdateTelefone([FromBody] TelefoneUpdateDto updateTelefone)
         {
             try
             {

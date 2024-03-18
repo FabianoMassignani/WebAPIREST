@@ -9,7 +9,7 @@ using WebAPIREST.Models;
 
 namespace WebAPIREST.Repository
 {
-    public class PessoaRepository : IPessoaRepository
+    public class PessoaRepository : IUserRepository
     {
         private readonly ConnectionContext _context = new();
 
@@ -30,7 +30,8 @@ namespace WebAPIREST.Repository
         {
             try
             {
-                return _context.Pessoas.Include(p => p.Telefones)
+                return _context
+                    .Pessoas.Include(p => p.Telefones)
                     .FirstOrDefault(p => p.Id_pessoa == id);
             }
             catch (Exception ex)
@@ -63,6 +64,7 @@ namespace WebAPIREST.Repository
                 throw new Exception("Erro ao adicionar pessoa.", ex);
             }
         }
+
         public bool UpdatePessoa(Pessoa pessoa)
         {
             try
@@ -115,7 +117,7 @@ namespace WebAPIREST.Repository
             return saved > 0;
         }
 
-        List<Pessoa> IPessoaRepository.GetPessoaByName(string nome)
+        List<Pessoa> IUserRepository.GetPessoaByName(string nome)
         {
             try
             {
@@ -132,8 +134,8 @@ namespace WebAPIREST.Repository
             try
             {
                 return _context
-                        .Pessoas.Include(p => p.Telefones)
-                        .FirstOrDefault(p => p.Telefones.Any(t => t.Numero == id));
+                    .Pessoas.Include(p => p.Telefones)
+                    .FirstOrDefault(p => p.Telefones.Any(t => t.Numero == id));
             }
             catch (Exception ex)
             {

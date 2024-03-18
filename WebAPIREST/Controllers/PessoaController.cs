@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebAPIREST.Dto;
 using WebAPIREST.Interfaces;
@@ -10,13 +11,12 @@ namespace WebAPIREST.Controllers
 {
     [Route("/pessoa")]
     [ApiController]
-    public class PessoaController(IPessoaRepository pessoaRepository, IMapper mapper)
-        : ControllerBase
+    public class PessoaController(IUserRepository pessoaRepository, IMapper mapper) : ControllerBase
     {
-        private readonly IPessoaRepository _pessoaRepository = pessoaRepository;
+        private readonly IUserRepository _pessoaRepository = pessoaRepository;
         private readonly IMapper _mapper = mapper;
 
-        [HttpGet]
+        [HttpGet("all")]
         [ProducesResponseType(200, Type = typeof(IEnumerable<PessoaDto>))]
         [ProducesResponseType(500)]
         public IActionResult GetAllPessoas()
@@ -49,7 +49,9 @@ namespace WebAPIREST.Controllers
                 if (!_pessoaRepository.PessoaExist(Int32.Parse(id)))
                     return NotFound("Pessoa não encontrada");
 
-                var pessoa = _mapper.Map<PessoaDto>(_pessoaRepository.GetPessoaById(Int32.Parse(id)));
+                var pessoa = _mapper.Map<PessoaDto>(
+                    _pessoaRepository.GetPessoaById(Int32.Parse(id))
+                );
 
                 if (!ModelState.IsValid)
                     return BadRequest(ModelState);
@@ -116,6 +118,7 @@ namespace WebAPIREST.Controllers
         [HttpPost]
         [ProducesResponseType(201, Type = typeof(PessoaDto))]
         [ProducesResponseType(400)]
+        [ProducesResponseType(401)]
         [ProducesResponseType(500)]
         public IActionResult CreatePessoa([FromBody] PessoaDto pessoaCreate)
         {
@@ -170,7 +173,7 @@ namespace WebAPIREST.Controllers
 
                 if (updatePessoa == null)
                     return BadRequest("Dados da pessoa inválidos");
-           
+
                 if (!_pessoaRepository.PessoaExist(updatePessoa.Id_pessoa))
                     return NotFound("Pessoa não encontrada");
 

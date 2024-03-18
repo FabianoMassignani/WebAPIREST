@@ -2,8 +2,10 @@
 
 namespace WebAPIREST.Dto
 {
-    public class TelefoneDto
+    public class TelefoneUpdateDto
     {
+        public int Id_telefone { get; set; }
+
         [Required(ErrorMessage = "O campo Tipo é obrigatório.")]
         public required string Tipo { get; set; }
 

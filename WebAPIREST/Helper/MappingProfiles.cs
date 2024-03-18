@@ -8,8 +8,11 @@ namespace WebAPIREST.Helper
     {
         public MappingProfiles()
         {
+            CreateMap<User, UsersDto>();
+            CreateMap<UsersDto, User>();
             CreateMap<Pessoa, PessoaDto>();
             CreateMap<Telefone, TelefoneDto>();
+            CreateMap<TelefoneDto, Telefone>();
         }
     }
 }

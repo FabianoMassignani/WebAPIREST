@@ -1,27 +1,27 @@
-### GET /pessoa
+### GET /pessoa/all
 
-GET http://localhost:5074/pessoa
+GET http://localhost:5074/pessoa/all
 Accept: application/json
 
 ###
 
 ### GET /pessoa/{id}
 
-GET http://localhost:5074/pessoa/
+GET http://localhost:5074/pessoa/{id}
 Accept: application/json
 
 ###
 
-### GET /pessoa/GetByNome/{nome}
+### GET /pessoa/GetByNome?nome=Fabiano
 
-GET https://localhost:7101/GetByNome?nome=string
+GET http://localhost:5074/pessoa/GetByNome?nome=Fabiano
 Accept: application/json
 
 ###
 
-### GET /pessoa/GetByNumero?numero=123456789
+### GET /pessoa/GetPessoaByTelefone?numero=123456789
 
-GET https://localhost:7101/GetPessoaByNumero?numero=123456789
+GET http://localhost:5074/pessoa/GetPessoaByTelefone?numero=123456789
 Accept: application/json
 
 ###
@@ -38,61 +38,55 @@ Content-Type: application/json
   "cpf": "07738062967",
   "genero": "M",
   "endereco": "Rua ABC",
-  "email": "joao@example.com",
-  "telefones": [
-   
-  ]
+  "email": "joao@example.com"
 }
-
 
 ###
 
-### PUT /pessoa/{id}
+### PUT /pessoa
 
 PUT http://localhost:5074/pessoa
 Content-Type: application/json
 
- {
-    "id_pessoa": 14,
-    "nome": "Fabiano",
-    "data_nascimento": "1990-01-01T00:00:00",
-    "ativo": true,
-    "cpf": "07738062967",
-    "genero": "M",
-    "endereco": "Rua ABC",
-    "email": "joao@example.com",
-    "data_atualizacao": "2024-03-17T16:09:16.882473",
-    "data_cadastro": "2024-03-17T16:09:16.882476",
-    "telefones": []
-  }
+{
+  "id_pessoa": 14,
+  "nome": "Fabiano",
+  "data_nascimento": "1990-01-01",
+  "ativo": true,
+  "cpf": "07738062967",
+  "genero": "M",
+  "endereco": "Rua ABC",
+  "email": "joao@example.com",
+  "data_cadastro": "2024-03-17T16:09:16.882476"
+}
 
 ###
 
 ### DELETE /pessoa/{id}
 
-DELETE http://localhost:5074/pessoa/8
+DELETE http://localhost:5074/pessoa/{id}
 Accept: application/json
 
 ###
 
+### GET /telefone/all
 
-### GET /telefone
-
-GET http://localhost:5074/telefone
+GET http://localhost:5074/telefone/all
 Accept: application/json
 
 ###
 
 ### GET /telefone/{id}
 
-GET http://localhost:5074/telefone/1
+GET http://localhost:5074/telefone/13
 Accept: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImZhYmlhbm8iLCJyb2xlIjoiYWRtaW4iLCJuYmYiOjE3MTA3NzAxMDgsImV4cCI6MTcxMDc3MzcwOCwiaWF0IjoxNzEwNzcwMTA4fQ.GLHrzkth4LLKZYnhGtGt5l1AiugdNlfPUpTutSlI1iY
 
 ###
 
 ### POST /telefone?id_pessoa=1
 
-POST http://localhost:5074/telefone?id_pessoa=11
+POST http://localhost:5074/telefone?id_pessoa=1
 Content-Type: application/json
 
 {
@@ -102,9 +96,9 @@ Content-Type: application/json
 
 ###
 
-### PUT /telefone/{id}
+### PUT /telefone
 
-PUT http://localhost:5074/telefone/6
+PUT http://localhost:5074/telefone
 Content-Type: application/json
 
 {
@@ -115,9 +109,37 @@ Content-Type: application/json
 
 ###
 
-### DELETE /telefone/{id}
+### DELETE /telefone?id=6
 
-DELETE http://localhost:5074/telefone/6
+DELETE http://localhost:5074/telefone?id=6
 Accept: application/json
 
 ###
+
+### GET /usuario/all
+
+GET http://localhost:5074/usuario/all
+
+ ###
+
+### POST /usuario/register
+
+POST http://localhost:5074/usuario/register
+Content-Type: application/json
+
+{
+  "username": "fabiano1",
+  "password": "fabiano",
+  "role": "admin"
+}
+ ###
+
+### POST /usuario/login
+
+POST http://localhost:5074/usuario/login
+Content-Type: application/json
+
+{
+  "username": "fabiano",
+  "password": "fabiano"
+}

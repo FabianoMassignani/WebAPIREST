@@ -12,7 +12,7 @@ using WebAPIREST.infraestrutura;
 namespace WebAPIREST.Migrations
 {
     [DbContext(typeof(ConnectionContext))]
-    [Migration("20240315225905_InitialCreate")]
+    [Migration("20240318030339_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -27,77 +27,105 @@ namespace WebAPIREST.Migrations
 
             modelBuilder.Entity("WebAPIREST.Models.Pessoa", b =>
                 {
-                    b.Property<int>("id_pessoa")
+                    b.Property<int>("Id_pessoa")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("id_pessoa"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id_pessoa"));
 
-                    b.Property<bool>("ativo")
+                    b.Property<bool>("Ativo")
                         .HasColumnType("boolean");
 
-                    b.Property<string>("cpf")
+                    b.Property<string>("Cpf")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<DateTime>("data_atualizacao")
+                    b.Property<DateTime>("Data_atualizacao")
                         .HasColumnType("timestamp without time zone");
 
-                    b.Property<DateTime>("data_nascimento")
+                    b.Property<DateTime>("Data_cadastro")
                         .HasColumnType("timestamp without time zone");
 
-                    b.Property<string>("email")
+                    b.Property<DateTime>("Data_nascimento")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("endereco")
+                    b.Property<string>("Endereco")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("genero")
+                    b.Property<string>("Genero")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("nome")
+                    b.Property<string>("Nome")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.HasKey("id_pessoa");
+                    b.HasKey("Id_pessoa");
 
                     b.ToTable("pessoa");
                 });
 
             modelBuilder.Entity("WebAPIREST.Models.Telefone", b =>
                 {
-                    b.Property<int>("id_telefone")
+                    b.Property<int>("Id_telefone")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("id_telefone"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id_telefone"));
 
-                    b.Property<int>("Pessoaid_pessoa")
+                    b.Property<string>("Numero")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("PessoaId")
                         .HasColumnType("integer");
 
-                    b.Property<string>("numero")
+                    b.Property<string>("Tipo")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("tipo")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.HasKey("Id_telefone");
 
-                    b.HasKey("id_telefone");
-
-                    b.HasIndex("Pessoaid_pessoa");
+                    b.HasIndex("PessoaId");
 
                     b.ToTable("telefone");
+                });
+
+            modelBuilder.Entity("WebAPIREST.Models.User", b =>
+                {
+                    b.Property<int>("Id_user")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id_user"));
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Role")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Username")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id_user");
+
+                    b.ToTable("user");
                 });
 
             modelBuilder.Entity("WebAPIREST.Models.Telefone", b =>
                 {
                     b.HasOne("WebAPIREST.Models.Pessoa", "Pessoa")
                         .WithMany("Telefones")
-                        .HasForeignKey("Pessoaid_pessoa")
+                        .HasForeignKey("PessoaId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

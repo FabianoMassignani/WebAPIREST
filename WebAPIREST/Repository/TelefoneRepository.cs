@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using WebAPIREST.infraestrutura;
 using WebAPIREST.Interfaces;
 using WebAPIREST.Models;
@@ -11,13 +7,13 @@ namespace WebAPIREST.Repository
 {
     public class TelefoneRepository : ITelefoneRepository
     {
-        private readonly ConnectionContext _context = new ConnectionContext();
+        private readonly ConnectionContext _context = new();
 
         public List<Telefone> GetAllTelefone()
         {
             try
             {
-                return _context.Telefones.OrderBy(p => p.Id_telefone).ToList();
+                return [.. _context.Telefones.OrderBy(p => p.Id_telefone)];
             }
             catch (Exception ex)
             {
@@ -106,7 +102,7 @@ namespace WebAPIREST.Repository
         {
             var saved = _context.SaveChanges();
 
-            return saved > 0 ? true : false;
+            return saved > 0;
         }
     }
 }
