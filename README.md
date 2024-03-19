@@ -9,9 +9,12 @@ Para realizar a migração do banco de dados, execute os comandos:
 
 ## Dependências
 
-- Authentication.jwtbearer
+- Microsoft.AspNetCore.Authentication.JwtBearer
 - AutoMapper
 - Microsoft.EntityFrameworkCore
+- Microsoft.EntityFrameworkCore.Tools
 - Npgsql
 - Npgsql.EntityFrameworkCore.PostgreSQL
 - Swashbuckle.AspNetCore
+- FluentValidation
+- FluentValidation.AspNetCore
