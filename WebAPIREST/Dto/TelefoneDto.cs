@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 using WebAPIREST.Models;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace WebAPIREST.Dto
 {

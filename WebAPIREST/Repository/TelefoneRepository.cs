@@ -109,12 +109,12 @@ namespace WebAPIREST.Repository
                 throw new Exception("Erro ao deletar telefone.", ex);
             }
         }
+
         public bool Save()
         {
             var saved = _context.SaveChanges();
 
             return saved > 0;
         }
-
     }
 }

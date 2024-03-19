@@ -69,7 +69,6 @@ namespace WebAPIREST.Repository
         {
             try
             {
-
                 _context.Update(pessoa);
                 return Save();
             }
@@ -116,7 +115,7 @@ namespace WebAPIREST.Repository
         {
             try
             {
-                return [.. _context.Pessoas.Where(p => p.Nome == nome)];
+                return [.. _context.Pessoas.Include(p => p.Telefones).Where(p => p.Nome == nome)];
             }
             catch (Exception ex)
             {

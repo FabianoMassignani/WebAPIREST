@@ -38,9 +38,6 @@ namespace WebAPIREST.Controllers
                     _telefoneRepository.GetAllTelefone()
                 );
 
-                if (!ModelState.IsValid)
-                    return BadRequest(ModelState);
-
                 return Ok(telefones);
             }
             catch (Exception ex)
@@ -79,9 +76,6 @@ namespace WebAPIREST.Controllers
         {
             try
             {
-                if (createdTelefone == null)
-                    return BadRequest(ModelState);
-
                 if (!ModelState.IsValid)
                     return BadRequest(ModelState);
 
@@ -90,8 +84,6 @@ namespace WebAPIREST.Controllers
 
                 if (!TelefoneUtils.IsTipoCorreto(createdTelefone.Tipo))
                     return BadRequest("Tipo de Telefone inválido");
-
-                bool a = _telefoneRepository.GetByNumero(createdTelefone.Numero);
 
                 if (_telefoneRepository.GetByNumero(createdTelefone.Numero))
                     return NotFound("Telefone já cadastrado");
@@ -116,7 +108,7 @@ namespace WebAPIREST.Controllers
                     return StatusCode(500, ModelState);
                 }
 
-                return Ok("Telefone associado com sucesso à pessoa");
+                return Ok("Telefone associado à pessoa com sucesso");
             }
             catch (Exception ex)
             {
@@ -135,9 +127,6 @@ namespace WebAPIREST.Controllers
             {
                 if (!ModelState.IsValid)
                     return BadRequest(ModelState);
-
-                if (updateTelefone == null)
-                    return BadRequest("Dados do Telefone inválidos");
 
                 if (!_telefoneRepository.TelefoneExist(updateTelefone.Id_telefone))
                     return NotFound("Telefone não encontrado");
@@ -174,7 +163,7 @@ namespace WebAPIREST.Controllers
             {
                 if (!_telefoneRepository.TelefoneExist(id))
                 {
-                    return NotFound();
+                    return NotFound("Telefone não encontrado");
                 }
 
                 var telefoneToDelete = _telefoneRepository.GetTelefoneById(id);

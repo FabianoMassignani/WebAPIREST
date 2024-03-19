@@ -8,6 +8,7 @@ namespace WebAPIREST.infraestrutura
         public DbSet<User> Users { get; set; }
         public DbSet<Pessoa> Pessoas { get; set; }
         public DbSet<Telefone> Telefones { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder
@@ -30,7 +31,9 @@ namespace WebAPIREST.infraestrutura
             var username = config["DBUsername"];
             var password = config["DBPassword"];
 
-            optionsBuilder.UseNpgsql($"Server={server};Port={port};Database={database};User Id={username};Password={password}");
+            optionsBuilder.UseNpgsql(
+                $"Server={server};Port={port};Database={database};User Id={username};Password={password}"
+            );
         }
     }
 }

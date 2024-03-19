@@ -1,8 +1,8 @@
-﻿using AutoMapper;
+﻿using System.ComponentModel.DataAnnotations;
+using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using System.ComponentModel.DataAnnotations;
 using WebAPIREST.Dto;
 using WebAPIREST.Interfaces;
 using WebAPIREST.Models;
@@ -15,13 +15,16 @@ namespace WebAPIREST.Controllers
 {
     [Route("/usuario")]
     [ApiController]
-    public class UserController(IUsersRepository usersRepository, User.UserValidator validator, IMapper mapper) : ControllerBase
+    public class UserController(
+        IUsersRepository usersRepository,
+        User.UserValidator validator,
+        IMapper mapper
+    ) : ControllerBase
     {
         private readonly IUsersRepository _usersRepository = usersRepository;
         private readonly TokenService _tokenService = new(Settings.Secret);
         private readonly UserValidator _validator = validator;
         private readonly IMapper _mapper = mapper;
-
 
         [HttpGet("all")]
         [Authorize(Roles = "admin")]
@@ -32,9 +35,6 @@ namespace WebAPIREST.Controllers
             try
             {
                 var userDtos = _mapper.Map<IEnumerable<UsersDto>>(_usersRepository.GetAllUsers());
-
-                if (!ModelState.IsValid)
-                    return BadRequest(ModelState);
 
                 return Ok(userDtos);
             }
@@ -119,6 +119,9 @@ namespace WebAPIREST.Controllers
         {
             try
             {
+                if (!ModelState.IsValid)
+                    return BadRequest(ModelState);
+
                 var user = _usersRepository.GetByUsernameAndPassword(
                     loginDto.Username,
                     loginDto.Password
@@ -128,9 +131,6 @@ namespace WebAPIREST.Controllers
                 {
                     return Unauthorized("Nome de usuário ou senha inválidos");
                 }
-
-                if (!ModelState.IsValid)
-                    return BadRequest(ModelState);
 
                 if (!_usersRepository.DeleteUser(user))
                 {

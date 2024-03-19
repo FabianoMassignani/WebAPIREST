@@ -7,7 +7,7 @@ Accept: application/json
 
 ### GET /pessoa/{id}
 
-GET http://localhost:5074/pessoa/GetById?Id_pessoa=17
+GET http://localhost:5074/pessoa/GetById?Id_pessoa=9
 Accept: application/json
 
 ###
@@ -46,12 +46,12 @@ Accept: application/json
 
 ### PUT /pessoa
 
-PUT http://localhost:5074/pessoa?Id_pessoa=17
+PUT http://localhost:5074/pessoa?Id_pessoa=9
 Content-Type: application/json
 Accept: application/json
 
 {
-  "Id_pessoa": 17,
+  "Id_pessoa": 9,
   "nome": "Fabiano",
   "data_nascimento": "1990-01-01",
   "ativo": true,

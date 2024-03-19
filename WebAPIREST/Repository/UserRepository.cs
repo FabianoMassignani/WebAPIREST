@@ -75,7 +75,6 @@ namespace WebAPIREST.Repository
             }
         }
 
-      
         public bool DeleteUser(User user)
         {
             try
@@ -95,6 +94,5 @@ namespace WebAPIREST.Repository
 
             return saved > 0;
         }
-
     }
 }
