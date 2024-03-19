@@ -18,3 +18,9 @@ Para realizar a migração do banco de dados, execute os comandos:
 - Swashbuckle.AspNetCore
 - FluentValidation
 - FluentValidation.AspNetCore
+- Microsoft.Extensions.Configuration.EnvironmentVariables
+
+## Docker
+
+- docker build -t nome_da_imagem .
+- docker run -d -p 8080:80 --name nome_do_container nome_da_imagem
