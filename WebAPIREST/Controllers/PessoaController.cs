@@ -8,15 +8,17 @@ using WebAPIREST.Interfaces;
 using WebAPIREST.Models;
 using WebAPIREST.Repository;
 using WebAPIREST.Utils;
+using static WebAPIREST.Models.Pessoa;
 
 namespace WebAPIREST.Controllers
 {
     [Route("/pessoa")]
     [ApiController]
-    public class PessoaController(IUserRepository pessoaRepository, IMapper mapper) : ControllerBase
+    public class PessoaController(IUserRepository pessoaRepository, IMapper mapper, Pessoa.PessoaValidator validator) : ControllerBase
     {
         private readonly IUserRepository _pessoaRepository = pessoaRepository;
         private readonly IMapper _mapper = mapper;
+        private readonly PessoaValidator _validator = validator;
 
         [HttpGet("all")]
         [ProducesResponseType(200, Type = typeof(IEnumerable<PessoaDto>))]
@@ -131,6 +133,11 @@ namespace WebAPIREST.Controllers
                     DateTime.Now
                 );
 
+                var validationResult = _validator.Validate(pessoa);
+
+                if (!validationResult.IsValid)
+                    return BadRequest(validationResult.Errors);
+
                 if (!_pessoaRepository.CreatePessoa(pessoa))
                 {
                     ModelState.AddModelError("", "Ocorreu um erro ao criar a pessoa");
@@ -155,7 +162,7 @@ namespace WebAPIREST.Controllers
             try
             {
                 if (updatePessoa == null)
-                    return BadRequest("Dados da pessoa inválidos");
+                    return BadRequest("Dados da pessoa não fornecidos");
 
                 if (!_pessoaRepository.PessoaExist(Id_pessoa))
                     return NotFound("Pessoa não encontrada");
@@ -178,6 +185,11 @@ namespace WebAPIREST.Controllers
                     {
                         Id_pessoa = Id_pessoa
                     };
+
+                var validationResult = _validator.Validate(pessoa);
+
+                if (!validationResult.IsValid)
+                    return BadRequest(validationResult.Errors);
 
                 if (!_pessoaRepository.UpdatePessoa(pessoa))
                 {

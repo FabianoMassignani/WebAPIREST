@@ -1,21 +1,27 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
 using WebAPIREST.Dto;
 using WebAPIREST.Interfaces;
 using WebAPIREST.Models;
 using WebAPIREST.Repository;
 using WebAPIREST.Services;
+using static WebAPIREST.Models.Pessoa;
+using static WebAPIREST.Models.User;
 
 namespace WebAPIREST.Controllers
 {
     [Route("/usuario")]
     [ApiController]
-    public class UserController(IUsersRepository usersRepository, IMapper mapper) : ControllerBase
+    public class UserController(IUsersRepository usersRepository, User.UserValidator validator, IMapper mapper) : ControllerBase
     {
         private readonly IUsersRepository _usersRepository = usersRepository;
         private readonly TokenService _tokenService = new(Settings.Secret);
+        private readonly UserValidator _validator = validator;
         private readonly IMapper _mapper = mapper;
+
 
         [HttpGet("all")]
         [Authorize(Roles = "admin")]
@@ -54,6 +60,11 @@ namespace WebAPIREST.Controllers
                 }
 
                 var user = _mapper.Map<User>(userCreate);
+
+                var validationResult = _validator.Validate(user);
+
+                if (!validationResult.IsValid)
+                    return BadRequest(validationResult.Errors);
 
                 _usersRepository.CreateUser(user);
 

@@ -14,16 +14,12 @@ namespace WebAPIREST.Dto
         DateTime data_cadastro
     )
     {
-
-        [Required(ErrorMessage = "O campo Nome é obrigatório.")]
         public string Nome { get; private set; } = nome;
         public DateTime Data_nascimento { get; private set; } = data_nascimento;
         public bool Ativo { get; private set; } = ativo;
         public string Cpf { get; private set; } = cpf;
         public string Genero { get; private set; } = genero;
         public string Endereco { get; private set; } = endereco;
-
-        [Required(ErrorMessage = "O campo Email é obrigatório.")]
         public string Email { get; private set; } = email;
         public DateTime Data_atualizacao { get; set; } = data_atualizacao;
         public DateTime Data_cadastro { get; private set; } = data_cadastro;

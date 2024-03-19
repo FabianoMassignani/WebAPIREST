@@ -22,7 +22,7 @@ Accept: application/json
 
 {
   "tipo": "Celular",
-  "numero": "1231123125656"
+  "numero": "123132"
 }
 
 ###
@@ -34,9 +34,10 @@ Content-Type: application/json
 Accept: application/json
 
  {
-    "id_telefone": 20,
-    "tipo": "Celular",
-    "numero": "1231123125656"
+    "id_telefone": 19,
+    "tipo": "string",
+    "numero": "123456789",
+    "pessoaId": 16
   }
 
 ###

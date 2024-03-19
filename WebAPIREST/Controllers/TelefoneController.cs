@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
@@ -8,6 +9,7 @@ using WebAPIREST.infraestrutura;
 using WebAPIREST.Interfaces;
 using WebAPIREST.Models;
 using WebAPIREST.Utils;
+using static WebAPIREST.Models.Telefone;
 
 namespace WebAPIREST.Controllers
 {
@@ -16,11 +18,13 @@ namespace WebAPIREST.Controllers
     public class TelefoneController(
         ITelefoneRepository telefoneRepository,
         IUserRepository pessoaRepository,
+        Telefone.TelefoneValidator validator,
         IMapper mapper
     ) : ControllerBase
     {
         private readonly ITelefoneRepository _telefoneRepository = telefoneRepository;
         private readonly IUserRepository _pessoaRepository = pessoaRepository;
+        private readonly TelefoneValidator _validator = validator;
         private readonly IMapper _mapper = mapper;
 
         [HttpGet("all")]
@@ -96,6 +100,11 @@ namespace WebAPIREST.Controllers
 
                 var telefone = _mapper.Map<Telefone>(createdTelefone);
 
+                var validationResult = _validator.Validate(telefone);
+
+                if (!validationResult.IsValid)
+                    return BadRequest(validationResult.Errors);
+
                 pessoa.Telefones.Add(telefone);
 
                 if (!_pessoaRepository.UpdatePessoa(pessoa))
@@ -116,11 +125,11 @@ namespace WebAPIREST.Controllers
         }
 
         [HttpPut]
-        [ProducesResponseType(200, Type = typeof(TelefoneUpdateDto))]
+        [ProducesResponseType(200, Type = typeof(TelefoneDto))]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
         [ProducesResponseType(500)]
-        public IActionResult UpdateTelefone([FromBody] TelefoneUpdateDto updateTelefone)
+        public IActionResult UpdateTelefone([FromBody] TelefoneDto updateTelefone)
         {
             try
             {
@@ -133,10 +142,12 @@ namespace WebAPIREST.Controllers
                 if (!_telefoneRepository.TelefoneExist(updateTelefone.Id_telefone))
                     return NotFound("Telefone não encontrado");
 
-                var telefone = _telefoneRepository.GetTelefoneById(updateTelefone.Id_telefone);
+                var telefone = _mapper.Map<Telefone>(updateTelefone);
 
-                telefone.Numero = updateTelefone.Numero;
-                telefone.Tipo = updateTelefone.Tipo;
+                var validationResult = _validator.Validate(telefone);
+
+                if (!validationResult.IsValid)
+                    return BadRequest(validationResult.Errors);
 
                 if (!_telefoneRepository.UpdateTelefone(telefone))
                 {

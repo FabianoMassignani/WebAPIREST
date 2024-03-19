@@ -12,7 +12,7 @@ using WebAPIREST.infraestrutura;
 namespace WebAPIREST.Migrations
 {
     [DbContext(typeof(ConnectionContext))]
-    [Migration("20240318211516_InitialCreate")]
+    [Migration("20240319133244_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -63,7 +63,8 @@ namespace WebAPIREST.Migrations
 
                     b.Property<string>("Nome")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
 
                     b.HasKey("Id_pessoa");
 
@@ -106,7 +107,8 @@ namespace WebAPIREST.Migrations
 
                     b.Property<string>("Password")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
 
                     b.Property<string>("Role")
                         .IsRequired()
@@ -114,7 +116,8 @@ namespace WebAPIREST.Migrations
 
                     b.Property<string>("Username")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
 
                     b.HasKey("Id_user");
 

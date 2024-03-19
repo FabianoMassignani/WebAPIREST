@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using FluentValidation;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace WebAPIREST.Models
@@ -19,6 +20,9 @@ namespace WebAPIREST.Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id_pessoa { get; set; }
+        [Required]
+        [MaxLength(100)]
+        [MinLength(5)]
         public string Nome { get; set; } = nome;
         public DateTime Data_nascimento { get; set; } = data_nascimento;
         public bool Ativo { get; set; } = ativo;
@@ -29,5 +33,14 @@ namespace WebAPIREST.Models
         public DateTime Data_atualizacao { get; set; } = data_atualizacao;
         public DateTime Data_cadastro { get; set; } = data_cadastro;
         public ICollection<Telefone> Telefones { get; set; } = [];
+        public class PessoaValidator : AbstractValidator<Pessoa>
+        {
+            public PessoaValidator()
+            {
+                RuleFor(x => x.Nome)
+                    .NotEmpty().WithMessage("Informe o nome do cliente")
+                    .Length(5, 100).WithMessage("O nome deverá ter entre 5 a 100 caracteres");
+            }
+        }
     }
 }
