@@ -13,16 +13,10 @@ namespace WebAPIREST.Controllers
 {
     [Route("/pessoa")]
     [ApiController]
-    public class PessoaController : ControllerBase
+    public class PessoaController(IUserRepository pessoaRepository, IMapper mapper) : ControllerBase
     {
-        private readonly IUserRepository _pessoaRepository;
-        private readonly IMapper _mapper;
-
-        public PessoaController(IUserRepository pessoaRepository, IMapper mapper)
-        {
-            _pessoaRepository = pessoaRepository;
-            _mapper = mapper;
-        }
+        private readonly IUserRepository _pessoaRepository = pessoaRepository;
+        private readonly IMapper _mapper = mapper;
 
         [HttpGet("all")]
         [ProducesResponseType(200, Type = typeof(IEnumerable<PessoaDto>))]
@@ -166,8 +160,6 @@ namespace WebAPIREST.Controllers
                 if (!_pessoaRepository.PessoaExist(Id_pessoa))
                     return NotFound("Pessoa não encontrada");
 
-                var pessoaToUpdate = _pessoaRepository.GetPessoaById(Id_pessoa);
-
                 if (!CpfCnpjUtils.IsValid(updatePessoa.Cpf))
                     return BadRequest("CPF inválido");
 
@@ -181,7 +173,7 @@ namespace WebAPIREST.Controllers
                         updatePessoa.Endereco,
                         updatePessoa.Email,
                         DateTime.Now,
-                        pessoaToUpdate.Data_cadastro
+                        updatePessoa.Data_cadastro
                     )
                     {
                         Id_pessoa = Id_pessoa

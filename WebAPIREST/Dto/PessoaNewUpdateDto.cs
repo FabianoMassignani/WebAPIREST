@@ -9,9 +9,12 @@ namespace WebAPIREST.Dto
         string cpf,
         string genero,
         string endereco,
-        string email
+        string email,
+        DateTime data_atualizacao,
+        DateTime data_cadastro
     )
     {
+
         [Required(ErrorMessage = "O campo Nome é obrigatório.")]
         public string Nome { get; private set; } = nome;
         public DateTime Data_nascimento { get; private set; } = data_nascimento;
@@ -22,5 +25,7 @@ namespace WebAPIREST.Dto
 
         [Required(ErrorMessage = "O campo Email é obrigatório.")]
         public string Email { get; private set; } = email;
+        public DateTime Data_atualizacao { get; set; } = data_atualizacao;
+        public DateTime Data_cadastro { get; private set; } = data_cadastro;
     }
 }

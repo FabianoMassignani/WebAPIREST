@@ -69,13 +69,8 @@ namespace WebAPIREST.Repository
         {
             try
             {
-                if (_context.Entry(pessoa).State == EntityState.Detached)
-                {
-                    _context.Attach(pessoa);
-                }
 
-                _context.Entry(pessoa).State = EntityState.Modified;
-
+                _context.Update(pessoa);
                 return Save();
             }
             catch (DbUpdateConcurrencyException)

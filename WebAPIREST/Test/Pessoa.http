@@ -1,0 +1,70 @@
+### GET /pessoa/all
+
+GET http://localhost:5074/pessoa/all
+Accept: application/json
+
+###
+
+### GET /pessoa/{id}
+
+GET http://localhost:5074/pessoa/GetById?Id_pessoa=17
+Accept: application/json
+
+###
+
+### GET /pessoa/GetByNome?nome=Fabiano
+
+GET http://localhost:5074/pessoa/GetByNome?nome=Fabiano
+Accept: application/json
+
+###
+
+### GET /pessoa/GetPessoaByTelefone?numero=123456789
+
+GET http://localhost:5074/pessoa/GetPessoaByTelefone?numero=123456789
+Accept: application/json
+
+###
+
+### POST /pessoa
+
+POST http://localhost:5074/pessoa
+Content-Type: application/json
+Accept: application/json
+
+{
+  "nome": "Fabiano",
+  "data_nascimento": "1990-01-01",
+  "ativo": true,
+  "cpf": "07738062967",
+  "genero": "M",
+  "endereco": "Rua ABC",
+  "email": "joao@example.com"
+}
+
+###
+
+### PUT /pessoa
+
+PUT http://localhost:5074/pessoa?Id_pessoa=17
+Content-Type: application/json
+Accept: application/json
+
+{
+  "Id_pessoa": 17,
+  "nome": "Fabiano",
+  "data_nascimento": "1990-01-01",
+  "ativo": true,
+  "cpf": "07738062967",
+  "genero": "M",
+  "endereco": "Rua ABC",
+  "email": "joao@example.com",
+  "data_cadastro": "2024-03-17T16:09:16.882476"
+}
+
+
+### DELETE /pessoa/{id}
+
+DELETE http://localhost:5074/pessoa?id_pessoa=1
+Accept: application/json
+

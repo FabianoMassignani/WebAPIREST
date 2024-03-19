@@ -1,0 +1,50 @@
+
+@ACCESS_JWT=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImZhYmlhbm8iLCJyb2xlIjoiYWRtaW4iLCJuYmYiOjE3MTA4NTA0ODIsImV4cCI6MTcxMDg1NDA4MiwiaWF0IjoxNzEwODUwNDgyfQ.IgAUi9N_6hDJrvQzb629S6QHlslEO3Rb3OFl1RCJy0E
+
+### GET /usuario/all
+
+GET http://localhost:5074/usuario/all
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer {{ACCESS_JWT}}
+
+###
+
+### POST /usuario/register
+
+POST http://localhost:5074/usuario/register
+Content-Type: application/json
+Accept: application/json
+
+{
+  "username": "fabiano",
+  "password": "fabiano",
+  "role": "admin"
+}
+
+###
+
+### POST /usuario/login
+
+POST http://localhost:5074/usuario/login
+Content-Type: application/json
+Accept: application/json
+
+{
+  "username": "fabiano",
+  "password": "fabiano"
+}
+
+###
+
+### DELETE /usuario
+
+DELETE https://localhost:7101/usuario
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer {{ACCESS_JWT}}
+
+{
+  "username": "fabiano",
+  "password": "fabiano"
+}

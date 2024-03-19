@@ -1,0 +1,49 @@
+### GET /telefone/all
+
+GET http://localhost:5074/telefone/all
+Accept: application/json
+
+###
+
+### GET /telefone/{id}
+
+GET http://localhost:5074/telefone/13
+Accept: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImZhYmlhbm8iLCJyb2xlIjoiYWRtaW4iLCJuYmYiOjE3MTA3ODQ3OTUsImV4cCI6MTcxMDc4ODM5NSwiaWF0IjoxNzEwNzg0Nzk1fQ.gHXYlq9Z_Vk5JgACtwnJMWxtsAu87A_4HiMTig3CIIs
+
+
+###
+
+### POST /telefone?id_pessoa=1
+
+POST http://localhost:5074/telefone?id_pessoa=16
+Content-Type: application/json
+Accept: application/json
+
+{
+  "tipo": "Celular",
+  "numero": "1231123125656"
+}
+
+###
+
+### PUT /telefone
+
+PUT http://localhost:5074/telefone
+Content-Type: application/json
+Accept: application/json
+
+ {
+    "id_telefone": 20,
+    "tipo": "Celular",
+    "numero": "1231123125656"
+  }
+
+###
+
+### DELETE /telefone?id=6
+
+DELETE http://localhost:5074/telefone?id=20
+Accept: application/json
+
+###

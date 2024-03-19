@@ -102,9 +102,7 @@ namespace WebAPIREST.Repository
         {
             try
             {
-                _context.Telefones.FirstOrDefault(p => p.Numero == numero);
-
-                return Save();
+                return _context.Telefones.Any(p => p.Numero == numero);
             }
             catch (Exception ex)
             {
