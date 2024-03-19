@@ -17,13 +17,20 @@ namespace WebAPIREST.infraestrutura
                 .HasForeignKey(p => p.PessoaId);
         }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) =>
-            optionsBuilder.UseNpgsql(
-                "Server=localhost;"
-                    + "Port=5432;"
-                    + "Database=postgresDB;"
-                    + "User Id=postgres;"
-                    + "Password=root;"
-            );
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            IConfiguration config = new ConfigurationBuilder()
+                .AddEnvironmentVariables()
+                .AddJsonFile("appsettings.json")
+                .Build();
+
+            var server = config["DBServer"];
+            var port = config["DBPort"];
+            var database = config["DBName"];
+            var username = config["DBUsername"];
+            var password = config["DBPassword"];
+
+            optionsBuilder.UseNpgsql($"Server={server};Port={port};Database={database};User Id={username};Password={password}");
+        }
     }
 }
