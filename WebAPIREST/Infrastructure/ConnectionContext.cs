@@ -21,7 +21,7 @@ namespace WebAPIREST.infraestrutura
         {
             IConfiguration config = new ConfigurationBuilder()
                 .AddEnvironmentVariables()
-                .AddJsonFile("appsettings.json")
+                .AddJsonFile("appsettings.Development.json")
                 .Build();
 
             var server = config["DBServer"];
