@@ -1,6 +1,6 @@
 # Avaliação de candidato (.NET)
 
-# Migration
+## Migration
 
 Para realizar a migração do banco de dados, execute os comandos:
 
