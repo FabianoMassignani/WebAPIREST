@@ -1,5 +1,9 @@
 # Avaliação de candidato (.NET)
 
+## Persistência de Dados 
+
+- PostgreSQL
+
 ## Migration
 
 Para realizar a migração do banco de dados, execute os comandos:
