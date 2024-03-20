@@ -13,6 +13,7 @@ namespace WebAPIREST.Helper
             CreateMap<Pessoa, PessoaDto>();
             CreateMap<Telefone, TelefoneDto>();
             CreateMap<TelefoneDto, Telefone>();
+            CreateMap<EnderecoDto, Endereco>();
         }
     }
 }

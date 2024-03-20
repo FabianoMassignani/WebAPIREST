@@ -8,6 +8,7 @@ namespace WebAPIREST.infraestrutura
         public DbSet<User> Users { get; set; }
         public DbSet<Pessoa> Pessoas { get; set; }
         public DbSet<Telefone> Telefones { get; set; }
+        public DbSet<Endereco> Enderecos { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -16,6 +17,12 @@ namespace WebAPIREST.infraestrutura
                 .HasOne(p => p.Pessoa)
                 .WithMany(p => p.Telefones)
                 .HasForeignKey(p => p.PessoaId);
+
+            modelBuilder
+                .Entity<Pessoa>()
+                .HasOne(p => p.Endereco)
+                .WithOne()
+                .HasForeignKey<Pessoa>(p => p.EnderecoId);
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

@@ -22,6 +22,43 @@ namespace WebAPIREST.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
+            modelBuilder.Entity("WebAPIREST.Models.Endereco", b =>
+                {
+                    b.Property<int>("Id_endereco")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id_endereco"));
+
+                    b.Property<string>("CEP")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Cidade")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Complemento")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Estado")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Numero")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Rua")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id_endereco");
+
+                    b.ToTable("endereco");
+                });
+
             modelBuilder.Entity("WebAPIREST.Models.Pessoa", b =>
                 {
                     b.Property<int>("Id_pessoa")
@@ -50,9 +87,8 @@ namespace WebAPIREST.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("Endereco")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<int?>("EnderecoId")
+                        .HasColumnType("integer");
 
                     b.Property<string>("Genero")
                         .IsRequired()
@@ -64,6 +100,9 @@ namespace WebAPIREST.Migrations
                         .HasColumnType("character varying(100)");
 
                     b.HasKey("Id_pessoa");
+
+                    b.HasIndex("EnderecoId")
+                        .IsUnique();
 
                     b.ToTable("pessoa");
                 });
@@ -119,6 +158,15 @@ namespace WebAPIREST.Migrations
                     b.HasKey("Id_user");
 
                     b.ToTable("user");
+                });
+
+            modelBuilder.Entity("WebAPIREST.Models.Pessoa", b =>
+                {
+                    b.HasOne("WebAPIREST.Models.Endereco", "Endereco")
+                        .WithOne()
+                        .HasForeignKey("WebAPIREST.Models.Pessoa", "EnderecoId");
+
+                    b.Navigation("Endereco");
                 });
 
             modelBuilder.Entity("WebAPIREST.Models.Telefone", b =>

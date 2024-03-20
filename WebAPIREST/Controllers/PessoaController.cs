@@ -124,17 +124,29 @@ namespace WebAPIREST.Controllers
                 if (!CpfCnpjUtils.IsValid(pessoaCreate.Cpf))
                     return BadRequest("CPF inválido");
 
+                var endereco = new Endereco
+                {
+                    Rua = pessoaCreate.Rua,
+                    Numero = pessoaCreate.Numero,
+                    Complemento = pessoaCreate.Complemento,
+                    Cidade = pessoaCreate.Cidade,
+                    Estado = pessoaCreate.Estado,
+                    CEP = pessoaCreate.CEP
+                };
+
                 var pessoa = new Pessoa(
                     pessoaCreate.Nome,
                     pessoaCreate.Data_nascimento,
                     pessoaCreate.Ativo,
                     pessoaCreate.Cpf,
                     pessoaCreate.Genero,
-                    pessoaCreate.Endereco,
                     pessoaCreate.Email,
                     DateTime.Now,
                     DateTime.Now
-                );
+                )
+                {
+                    Endereco = endereco
+                };
 
                 var validationResult = _validator.Validate(pessoa);
 
@@ -180,21 +192,29 @@ namespace WebAPIREST.Controllers
                 if (!CpfCnpjUtils.IsValid(updatePessoa.Cpf))
                     return BadRequest("CPF inválido");
 
-                Pessoa pessoa =
-                    new(
-                        updatePessoa.Nome,
-                        updatePessoa.Data_nascimento,
-                        updatePessoa.Ativo,
-                        updatePessoa.Cpf,
-                        updatePessoa.Genero,
-                        updatePessoa.Endereco,
-                        updatePessoa.Email,
-                        DateTime.Now,
-                        updatePessoa.Data_cadastro
-                    )
-                    {
-                        Id_pessoa = Id_pessoa
-                    };
+                var endereco = new Endereco
+                {
+                    Rua = updatePessoa.Rua,
+                    Numero = updatePessoa.Numero,
+                    Complemento = updatePessoa.Complemento,
+                    Cidade = updatePessoa.Cidade,
+                    Estado = updatePessoa.Estado,
+                    CEP = updatePessoa.CEP
+                };
+
+                Pessoa pessoa = new Pessoa
+                {
+                    Id_pessoa = Id_pessoa,
+                    Nome = updatePessoa.Nome,
+                    Data_nascimento = updatePessoa.Data_nascimento,
+                    Ativo = updatePessoa.Ativo,
+                    Cpf = updatePessoa.Cpf,
+                    Genero = updatePessoa.Genero,
+                    Email = updatePessoa.Email,
+                    Data_atualizacao = DateTime.Now,
+                    Data_cadastro = updatePessoa.Data_cadastro,
+                    Endereco = endereco
+                };
 
                 var validationResult = _validator.Validate(pessoa);
 
@@ -207,11 +227,7 @@ namespace WebAPIREST.Controllers
                     return StatusCode(500, ModelState);
                 }
 
-                return CreatedAtAction(
-                    nameof(GetPessoaById),
-                    new { id = pessoa.Id_pessoa },
-                    pessoa
-                );
+                return Ok(pessoa);
             }
             catch (Exception ex)
             {

@@ -10,17 +10,17 @@ namespace WebAPIREST.Models
         [Key]
         public int Id_user { get; set; }
 
-        [Required(ErrorMessage = "O campo Username é obrigatório")]
+        [Required]
         [MaxLength(100)]
         [MinLength(5)]
         public required string Username { get; set; }
 
-        [Required(ErrorMessage = "O campo Password é obrigatório")]
+        [Required]
         [MaxLength(100)]
         [MinLength(5)]
         public required string Password { get; set; }
 
-        [Required(ErrorMessage = "O campo Role é obrigatório")]
+        [Required]
         public required string Role { get; set; }
 
         public class UserValidator : AbstractValidator<User>

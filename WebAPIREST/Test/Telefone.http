@@ -9,8 +9,6 @@ Accept: application/json
 
 GET http://localhost:5074/telefone/13
 Accept: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImZhYmlhbm8iLCJyb2xlIjoiYWRtaW4iLCJuYmYiOjE3MTA3ODQ3OTUsImV4cCI6MTcxMDc4ODM5NSwiaWF0IjoxNzEwNzg0Nzk1fQ.gHXYlq9Z_Vk5JgACtwnJMWxtsAu87A_4HiMTig3CIIs
-
 
 ###
 
@@ -22,7 +20,7 @@ Accept: application/json
 
 {
   "tipo": "Celular",
-  "numero": "123132"
+  "numero": "3123211312"
 }
 
 ###
@@ -34,17 +32,16 @@ Content-Type: application/json
 Accept: application/json
 
  {
-    "id_telefone": 19,
+    "id_telefone": 13,
     "tipo": "string",
-    "numero": "123456789",
-    "pessoaId": 16
+    "numero": "3123211312"
   }
 
 ###
 
 ### DELETE /telefone?id=6
 
-DELETE http://localhost:5074/telefone?id=20
+DELETE http://localhost:5074/telefone?id=25
 Accept: application/json
 
 ###

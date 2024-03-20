@@ -39,7 +39,13 @@ Accept: application/json
   "cpf": "07738062967",
   "genero": "M",
   "endereco": "Rua ABC",
-  "email": "joao@example.com"
+  "email": "joao@example.com",
+    "rua": "string",
+  "numero": "string",
+  "complemento": "string",
+  "cidade": "string",
+  "estado": "string",
+  "cep": "string"
 }
 
 ###
@@ -59,7 +65,13 @@ Accept: application/json
   "genero": "M",
   "endereco": "Rua ABC",
   "email": "joao@example.com",
-  "data_cadastro": "2024-03-17T16:09:16.882476"
+  "data_cadastro": "2024-03-17T16:09:16.882476",
+    "rua": "string",
+  "numero": "string",
+  "complemento": "string",
+  "cidade": "string",
+  "estado": "string",
+  "cep": "string"
 }
 
 

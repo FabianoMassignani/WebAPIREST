@@ -1,6 +1,8 @@
 using System;
 using System.Text;
 using System.Text.Json.Serialization;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -8,14 +10,12 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using WebAPIREST;
 using WebAPIREST.Interfaces;
+using WebAPIREST.Models;
 using WebAPIREST.Repository;
 using WebAPIREST.Services;
-using FluentValidation.AspNetCore;
-using WebAPIREST.Models;
 using static WebAPIREST.Models.Pessoa;
-using FluentValidation;
-using static WebAPIREST.Models.User;
 using static WebAPIREST.Models.Telefone;
+using static WebAPIREST.Models.User;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -40,31 +40,42 @@ builder
         };
     });
 
-builder.Services.AddAuthorizationBuilder()
-    .AddPolicy("admin", policy =>
+builder
+    .Services.AddAuthorizationBuilder()
+    .AddPolicy(
+        "admin",
+        policy =>
         {
             policy.RequireRole("admin");
         }
-)
-    .AddPolicy("employee", policy =>
+    )
+    .AddPolicy(
+        "employee",
+        policy =>
         {
             policy.RequireRole("employee");
         }
-);
+    );
 
 // Add services
 builder.Services.AddControllers();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
 builder.Services.AddTransient<IUserRepository, PessoaRepository>();
 builder.Services.AddTransient<ITelefoneRepository, TelefoneRepository>();
 builder.Services.AddTransient<IUsersRepository, UsersRepository>();
+
 builder.Services.AddFluentValidationAutoValidation().AddFluentValidationClientsideAdapters();
 builder.Services.AddValidatorsFromAssemblyContaining<PessoaValidator>();
 builder.Services.AddValidatorsFromAssemblyContaining<UserValidator>();
 builder.Services.AddValidatorsFromAssemblyContaining<TelefoneValidator>();
-builder.Services.AddControllers().AddJsonOptions(x => x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
+ 
+
+builder
+    .Services.AddControllers()
+    .AddJsonOptions(x => x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 
 AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 

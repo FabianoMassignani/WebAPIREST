@@ -62,22 +62,10 @@ namespace WebAPIREST.Repository
         {
             try
             {
-                if (_context.Entry(telefone).State == EntityState.Detached)
-                {
-                    _context.Attach(telefone);
-                }
 
-                _context.Entry(telefone).State = EntityState.Modified;
+                _context.Update(telefone);
 
                 return Save();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                throw new Exception("Erro de concorrência ao atualizar telefone.");
-            }
-            catch (DbUpdateException)
-            {
-                throw new Exception("Erro ao atualizar telefone no banco de dados.");
             }
             catch (Exception ex)
             {

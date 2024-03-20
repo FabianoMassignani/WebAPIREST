@@ -18,7 +18,7 @@ namespace WebAPIREST.Repository
         {
             try
             {
-                return [.. _context.Pessoas.Include(p => p.Telefones)];
+                return [.. _context.Pessoas.Include(p => p.Telefones).Include(p => p.Endereco)];
             }
             catch (Exception ex)
             {
