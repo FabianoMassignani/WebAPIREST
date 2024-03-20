@@ -14,6 +14,6 @@ namespace WebAPIREST.Models
         public string? Complemento { get; set; }
         public string? Cidade { get; set; }
         public string? Estado { get; set; }
-        public required string CEP { get; set; }
+        public string? CEP { get; set; }
     }
 }

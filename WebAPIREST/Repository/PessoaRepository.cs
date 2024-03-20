@@ -72,14 +72,6 @@ namespace WebAPIREST.Repository
                 _context.Update(pessoa);
                 return Save();
             }
-            catch (DbUpdateConcurrencyException)
-            {
-                throw new Exception("Erro de concorrência ao atualizar pessoa.");
-            }
-            catch (DbUpdateException)
-            {
-                throw new Exception("Erro ao atualizar pessoa no banco de dados.");
-            }
             catch (Exception ex)
             {
                 throw new Exception("Erro ao atualizar pessoa.", ex);

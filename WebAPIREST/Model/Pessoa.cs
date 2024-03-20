@@ -11,6 +11,7 @@ namespace WebAPIREST.Models
     {
         [Key]
         public int Id_pessoa { get; set; }
+
         [Required]
         [MaxLength(100)]
         [MinLength(5)]
@@ -52,6 +53,7 @@ namespace WebAPIREST.Models
         {
             Telefones = [];
         }
+
         public class PessoaValidator : AbstractValidator<Pessoa>
         {
             public PessoaValidator()

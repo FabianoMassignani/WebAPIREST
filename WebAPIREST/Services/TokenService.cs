@@ -27,7 +27,7 @@ namespace WebAPIREST.Services
                     new(ClaimTypes.Name, user.Username),
                     new(ClaimTypes.Role, user.Role)
                 }),
-                Expires = DateTime.UtcNow.AddHours(1), // Definir tempo de expiração do token (1 hora, por exemplo)
+                Expires = DateTime.UtcNow.AddHours(1),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
             var token = tokenHandler.CreateToken(tokenDescriptor);
@@ -42,7 +42,7 @@ namespace WebAPIREST.Services
                 ValidateIssuer = false,
                 ValidateIssuerSigningKey = true,
                 IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(_secret)),
-                ValidateLifetime = true // Permitir tokens expirados
+                ValidateLifetime = true
             };
 
             var tokenHandler = new JwtSecurityTokenHandler();
