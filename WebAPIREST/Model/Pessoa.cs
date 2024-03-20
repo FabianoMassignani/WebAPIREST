@@ -11,12 +11,10 @@ namespace WebAPIREST.Models
     {
         [Key]
         public int Id_pessoa { get; set; }
-
         [Required]
         [MaxLength(100)]
         [MinLength(5)]
         public string Nome { get; set; }
-
         public DateTime Data_nascimento { get; set; }
         public bool Ativo { get; set; }
         public string? Cpf { get; set; }
@@ -24,8 +22,6 @@ namespace WebAPIREST.Models
         public string? Email { get; set; }
         public DateTime Data_atualizacao { get; set; }
         public DateTime Data_cadastro { get; set; }
-
-        // Relacionamento 1 para 1 com Endereco
         public int? EnderecoId { get; set; }
         public Endereco? Endereco { get; set; }
         public ICollection<Telefone> Telefones { get; set; }
