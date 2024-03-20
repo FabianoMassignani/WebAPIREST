@@ -6,8 +6,6 @@
 
 ## Migration
 
-Para realizar a migração do banco de dados, execute os comandos:
-
  - Add-Migration InitialCreate
  - Update-Database
 
