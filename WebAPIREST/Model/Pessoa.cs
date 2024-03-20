@@ -28,7 +28,7 @@ namespace WebAPIREST.Models
 
         public Pessoa()
         {
-            Telefones = [];
+            Telefones = new List<Telefone>();
         }
 
         public Pessoa(

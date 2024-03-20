@@ -4,15 +4,10 @@ using System.Text.Json.Serialization;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using WebAPIREST;
 using WebAPIREST.Interfaces;
-using WebAPIREST.Models;
 using WebAPIREST.Repository;
-using WebAPIREST.Services;
 using static WebAPIREST.Models.Pessoa;
 using static WebAPIREST.Models.Telefone;
 using static WebAPIREST.Models.User;
@@ -72,7 +67,6 @@ builder.Services.AddValidatorsFromAssemblyContaining<PessoaValidator>();
 builder.Services.AddValidatorsFromAssemblyContaining<UserValidator>();
 builder.Services.AddValidatorsFromAssemblyContaining<TelefoneValidator>();
  
-
 builder
     .Services.AddControllers()
     .AddJsonOptions(x => x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);

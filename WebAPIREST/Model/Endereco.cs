@@ -15,10 +15,5 @@ namespace WebAPIREST.Models
         public string? Cidade { get; set; }
         public string? Estado { get; set; }
         public required string CEP { get; set; }
-
-        public class EnderecoValidator : AbstractValidator<Endereco>
-        {
-            public EnderecoValidator() { }
-        }
     }
 }
