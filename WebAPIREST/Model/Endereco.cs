@@ -8,7 +8,6 @@ namespace WebAPIREST.Models
     public class Endereco
     {
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id_endereco { get; set; }
 
         [Required]

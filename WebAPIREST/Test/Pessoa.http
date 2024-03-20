@@ -33,7 +33,7 @@ Content-Type: application/json
 Accept: application/json
 
 {
-  "nome": "1245",
+  "nome": "124225",
   "data_nascimento": "1990-01-01",
   "ativo": true,
   "cpf": "07738062967",
@@ -77,6 +77,6 @@ Accept: application/json
 
 ### DELETE /pessoa/{id}
 
-DELETE http://localhost:5074/pessoa?id_pessoa=1
+DELETE http://localhost:5074/pessoa?id_pessoa=25
 Accept: application/json
 

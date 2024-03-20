@@ -12,8 +12,8 @@ using WebAPIREST.infraestrutura;
 namespace WebAPIREST.Migrations
 {
     [DbContext(typeof(ConnectionContext))]
-    [Migration("20240320010512_InitialCreate1")]
-    partial class InitialCreate1
+    [Migration("20240320013505_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

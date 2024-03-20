@@ -10,7 +10,6 @@ namespace WebAPIREST.Models
     public class Pessoa
     {
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id_pessoa { get; set; }
 
         [Required]
