@@ -20,21 +20,22 @@ Accept: application/json
 
 {
   "tipo": "Celular",
-  "numero": "3123211312"
+  "numero": "31232"
 }
 
 ###
 
 ### PUT /telefone
 
-PUT http://localhost:5074/telefone
+PUT https://localhost:7101/telefone?Id_telefone=3
 Content-Type: application/json
 Accept: application/json
 
  {
-    "id_telefone": 13,
-    "tipo": "string",
-    "numero": "3123211312"
+    "id_telefone": 3,
+    "tipo": "Celular",
+    "numero": "3123211312",
+    "PessoaId": "1"
   }
 
 ###

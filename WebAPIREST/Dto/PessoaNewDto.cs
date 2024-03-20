@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace WebAPIREST.Dto
 {
-    public class PessoaNewUpdateDto
+    public class PessoaNewDto
     {
         public string Nome { get; set; }
         public DateTime Data_nascimento { get; set; }
@@ -13,8 +13,6 @@ namespace WebAPIREST.Dto
         public string Email { get; set; }
         public DateTime Data_atualizacao { get; set; }
         public DateTime Data_cadastro { get; set; }
-
-        // Informações do endereço
         public string Rua { get; set; }
         public string Numero { get; set; }
         public string Complemento { get; set; }

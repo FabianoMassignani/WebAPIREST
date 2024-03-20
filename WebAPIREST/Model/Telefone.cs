@@ -11,17 +11,11 @@ namespace WebAPIREST.Models
         [Key]
         public int Id_telefone { get; set; }
         [Required]
-        public string Tipo { get; set; }
+        public string? Tipo { get; set; }
         [Required]
-        public string Numero { get; set; }
+        public string? Numero { get; set; }
         public int PessoaId { get; set; }
         public Pessoa Pessoa { get; set; }
-
-        public Telefone(string tipo, string numero)
-        {
-            Tipo = tipo;
-            Numero = numero;
-        }
 
         public class TelefoneValidator : AbstractValidator<Telefone>
         {

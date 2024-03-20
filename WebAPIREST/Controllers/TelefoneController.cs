@@ -72,7 +72,7 @@ namespace WebAPIREST.Controllers
         [ProducesResponseType(200, Type = typeof(TelefoneDto))]
         [ProducesResponseType(400)]
         [ProducesResponseType(500)]
-        public IActionResult Post([FromQuery] int id_pessoa, TelefoneDto createdTelefone)
+        public IActionResult Post([FromQuery] int id_pessoa, TelefoneNewDto createdTelefone)
         {
             try
             {
@@ -117,18 +117,18 @@ namespace WebAPIREST.Controllers
         }
 
         [HttpPut]
-        [ProducesResponseType(200, Type = typeof(TelefoneDto))]
+        [ProducesResponseType(200, Type = typeof(TelefoneUpdateDto))]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
         [ProducesResponseType(500)]
-        public IActionResult UpdateTelefone([FromBody] TelefoneDto updateTelefone)
+        public IActionResult UpdateTelefone([FromQuery] int Id_telefone, [FromBody] TelefoneUpdateDto updateTelefone)
         {
             try
             {
                 if (!ModelState.IsValid)
                     return BadRequest(ModelState);
 
-                if (!_telefoneRepository.TelefoneExist(updateTelefone.Id_telefone))
+                if (!_telefoneRepository.TelefoneExist(Id_telefone))
                     return NotFound("Telefone não encontrado");
 
                 var telefone = _mapper.Map<Telefone>(updateTelefone);

@@ -14,6 +14,8 @@ namespace WebAPIREST.Helper
             CreateMap<Telefone, TelefoneDto>();
             CreateMap<TelefoneDto, Telefone>();
             CreateMap<EnderecoDto, Endereco>();
+            CreateMap<TelefoneUpdateDto, Telefone>();
+            CreateMap<TelefoneNewDto, Telefone>();
         }
     }
 }

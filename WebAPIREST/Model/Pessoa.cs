@@ -26,11 +26,6 @@ namespace WebAPIREST.Models
         public Endereco? Endereco { get; set; }
         public ICollection<Telefone> Telefones { get; set; }
 
-        public Pessoa()
-        {
-            Telefones = new List<Telefone>();
-        }
-
         public Pessoa(
             string nome,
             DateTime data_nascimento,
@@ -53,6 +48,10 @@ namespace WebAPIREST.Models
             Data_cadastro = data_cadastro;
         }
 
+        public Pessoa()
+        {
+            Telefones = [];
+        }
         public class PessoaValidator : AbstractValidator<Pessoa>
         {
             public PessoaValidator()

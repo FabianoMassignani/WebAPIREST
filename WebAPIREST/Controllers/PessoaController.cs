@@ -114,7 +114,7 @@ namespace WebAPIREST.Controllers
         [ProducesResponseType(201, Type = typeof(PessoaDto))]
         [ProducesResponseType(400)]
         [ProducesResponseType(500)]
-        public IActionResult CreatePessoa([FromBody] PessoaNewUpdateDto pessoaCreate)
+        public IActionResult CreatePessoa([FromBody] PessoaNewDto pessoaCreate)
         {
             try
             {
@@ -178,7 +178,7 @@ namespace WebAPIREST.Controllers
         [ProducesResponseType(500)]
         public IActionResult UpdatePessoa(
             [FromQuery] int Id_pessoa,
-            [FromBody] PessoaNewUpdateDto updatePessoa
+            [FromBody] PessoaNewDto updatePessoa
         )
         {
             try

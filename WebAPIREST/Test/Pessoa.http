@@ -52,12 +52,12 @@ Accept: application/json
 
 ### PUT /pessoa
 
-PUT http://localhost:5074/pessoa?Id_pessoa=9
+PUT http://localhost:5074/pessoa?Id_pessoa=1
 Content-Type: application/json
 Accept: application/json
 
 {
-  "Id_pessoa": 9,
+  "Id_pessoa": 1,
   "nome": "Fabiano",
   "data_nascimento": "1990-01-01",
   "ativo": true,
