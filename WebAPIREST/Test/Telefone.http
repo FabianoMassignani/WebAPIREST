@@ -14,7 +14,7 @@ Accept: application/json
 
 ### POST /telefone?id_pessoa=1
 
-POST http://localhost:5074/telefone?id_pessoa=16
+POST http://localhost:5074/telefone?id_pessoa=1
 Content-Type: application/json
 Accept: application/json
 

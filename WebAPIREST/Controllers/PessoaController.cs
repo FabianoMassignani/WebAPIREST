@@ -202,7 +202,7 @@ namespace WebAPIREST.Controllers
                     CEP = updatePessoa.CEP
                 };
 
-                Pessoa pessoa = new Pessoa
+                Pessoa pessoa = new()
                 {
                     Id_pessoa = Id_pessoa,
                     Nome = updatePessoa.Nome,
