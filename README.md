@@ -11,15 +11,15 @@
 
 ## Dependências
 
-- Microsoft.AspNetCore.Authentication.JwtBearer
+- Npgsql
 - AutoMapper
+- FluentValidation
+- Swashbuckle.AspNetCore
+- FluentValidation.AspNetCore
 - Microsoft.EntityFrameworkCore
 - Microsoft.EntityFrameworkCore.Tools
-- Npgsql
 - Npgsql.EntityFrameworkCore.PostgreSQL
-- Swashbuckle.AspNetCore
-- FluentValidation
-- FluentValidation.AspNetCore
+- Microsoft.AspNetCore.Authentication.JwtBearer
 - Microsoft.Extensions.Configuration.EnvironmentVariables
 
 ## Docker
