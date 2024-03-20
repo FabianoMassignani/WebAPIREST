@@ -17,9 +17,13 @@ WORKDIR /app
 COPY --from=build /app/out ./
 
 ENV DBServer=localhost
+
 ENV DBPort=5432
+
 ENV DBName=postgresDB
+
 ENV DBUsername=postgres
+
 ENV DBPassword=root
 
 RUN env
