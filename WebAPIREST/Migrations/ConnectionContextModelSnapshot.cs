@@ -35,23 +35,18 @@ namespace WebAPIREST.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("Cidade")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("Complemento")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("Estado")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("Numero")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("Rua")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("Id_endereco");
@@ -71,7 +66,6 @@ namespace WebAPIREST.Migrations
                         .HasColumnType("boolean");
 
                     b.Property<string>("Cpf")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<DateTime>("Data_atualizacao")
@@ -84,14 +78,12 @@ namespace WebAPIREST.Migrations
                         .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("Email")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<int?>("EnderecoId")
                         .HasColumnType("integer");
 
                     b.Property<string>("Genero")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("Nome")

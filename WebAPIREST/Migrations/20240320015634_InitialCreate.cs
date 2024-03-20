@@ -18,11 +18,11 @@ namespace WebAPIREST.Migrations
                 {
                     Id_endereco = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Rua = table.Column<string>(type: "text", nullable: false),
-                    Numero = table.Column<string>(type: "text", nullable: false),
-                    Complemento = table.Column<string>(type: "text", nullable: false),
-                    Cidade = table.Column<string>(type: "text", nullable: false),
-                    Estado = table.Column<string>(type: "text", nullable: false),
+                    Rua = table.Column<string>(type: "text", nullable: true),
+                    Numero = table.Column<string>(type: "text", nullable: true),
+                    Complemento = table.Column<string>(type: "text", nullable: true),
+                    Cidade = table.Column<string>(type: "text", nullable: true),
+                    Estado = table.Column<string>(type: "text", nullable: true),
                     CEP = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
@@ -54,9 +54,9 @@ namespace WebAPIREST.Migrations
                     Nome = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     Data_nascimento = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     Ativo = table.Column<bool>(type: "boolean", nullable: false),
-                    Cpf = table.Column<string>(type: "text", nullable: false),
-                    Genero = table.Column<string>(type: "text", nullable: false),
-                    Email = table.Column<string>(type: "text", nullable: false),
+                    Cpf = table.Column<string>(type: "text", nullable: true),
+                    Genero = table.Column<string>(type: "text", nullable: true),
+                    Email = table.Column<string>(type: "text", nullable: true),
                     Data_atualizacao = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     Data_cadastro = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     EnderecoId = table.Column<int>(type: "integer", nullable: true)

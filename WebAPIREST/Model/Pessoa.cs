@@ -19,20 +19,20 @@ namespace WebAPIREST.Models
 
         public DateTime Data_nascimento { get; set; }
         public bool Ativo { get; set; }
-        public string Cpf { get; set; }
-        public string Genero { get; set; }
-        public string Email { get; set; }
+        public string? Cpf { get; set; }
+        public string? Genero { get; set; }
+        public string? Email { get; set; }
         public DateTime Data_atualizacao { get; set; }
         public DateTime Data_cadastro { get; set; }
 
         // Relacionamento 1 para 1 com Endereco
         public int? EnderecoId { get; set; }
-        public Endereco Endereco { get; set; }
+        public Endereco? Endereco { get; set; }
         public ICollection<Telefone> Telefones { get; set; }
 
         public Pessoa()
         {
-            Telefones = new List<Telefone>();
+            Telefones = [];
         }
 
         public Pessoa(
